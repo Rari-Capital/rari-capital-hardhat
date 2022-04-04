@@ -3,8 +3,9 @@ import { task } from 'hardhat/config';
 
 //@ts-ignore
 import abi from 'erc-20-abi';
-import { commify } from 'ethers/lib/utils';
+import { commify, parseEther } from 'ethers/lib/utils';
 import { impersonateAccount } from '../utils/impersonate';
+import { createERC20 } from './turbo/utils/turboContracts';
 
 const getTokenInfo = (token: string) => {
     switch (token) {
@@ -32,6 +33,18 @@ const getTokenInfo = (token: string) => {
           decimals: 18,
           holderToImpersonate: "0x3744da57184575064838bbc87a0fc791f5e39ea2"
         }
+      case "BalancerBTCStablePool":
+        return {
+          address: "0xFeadd389a5c427952D8fdb8057D6C8ba1156cC56",
+          decimals: 18,
+          holderToImpersonate: "0x855723b4439a039a323650377f5d669bf0e9a0d7"
+        }
+      case "BAL": 
+        return {
+          address: "0xba100000625a3754423978a60c9317c58a424e3D",
+          decimals: 18,
+          holderToImpersonate: "0xff052381092420b7f24cc97fded9c0c17b2cbbb9"
+        }
       default:
         break;
     }
@@ -45,59 +58,109 @@ const getTokenInfo = (token: string) => {
     )
   }
   
-  task("sendToken")
-    .addParam("to", "Transfer recipient")
-    .addParam("amount", "Amount of tokens to be transfered in regular numbers")
-    .addParam("token", "Symbol of the token to be transfered in caps. i.e. DAI, USDC")
-    .setAction(
-      async (taskArgs, hre) => {
-        const provider = new hre.ethers.providers.JsonRpcProvider("http://localhost:8545")
-        const recipient = taskArgs.to 
-        const amount = taskArgs.amount
-        const token = taskArgs.token
-        
-        const tokenInfo = getTokenInfo(token)
-        
-        
+task("sendToken")
+  .addParam("to", "Transfer recipient")
+  .addParam("amount", "Amount of tokens to be transfered in regular numbers")
+  .addParam("token", "Symbol of the token to be transfered in caps. i.e. DAI, USDC")
+  .setAction(
+    async (taskArgs, hre) => {
+      const provider = new hre.ethers.providers.JsonRpcProvider("http://localhost:8545")
+      const recipient = taskArgs.to 
+      const amount = taskArgs.amount
+      const token = taskArgs.token
+      
+      const tokenInfo = getTokenInfo(token)
 
-        if (!tokenInfo) return
+      if (!tokenInfo) return
 
-        await provider.send(
-          "hardhat_impersonateAccount",
-          [tokenInfo.holderToImpersonate],
-          );
-          
-          const daiContract = getContract(tokenInfo.address, tokenInfo.holderToImpersonate, provider, hre)
-          const balanceOfSender = await daiContract.balanceOf(tokenInfo.holderToImpersonate)
-          console.log(balanceOfSender)
-          console.log('hey')
-        const balanceBefore = await daiContract.balanceOf(recipient)
-  
-  
-        const parsedAmount = tokenInfo.decimals === 18 
-          ? hre.ethers.utils.parseEther(amount) 
-          : hre.ethers.utils.parseUnits(amount, tokenInfo.decimals) 
-  
-        const transfer = await daiContract.transfer(recipient, parsedAmount)
-  
-        const balanceAfter = await daiContract.balanceOf(recipient)
+      await provider.send(
+        "hardhat_impersonateAccount",
+        [tokenInfo.holderToImpersonate],
+        );
         
-        const clean = (number: any) => {
-          return commify(
-            number.div(
-              hre.ethers.constants.WeiPerEther
-              ).toString()
-            )
-        }
-  
-        console.log(
-          "Your balance changed from: " 
-          + clean(balanceBefore) 
-          + ' => ' 
-          + clean(balanceAfter)
-        )
+        const daiContract = getContract(tokenInfo.address, tokenInfo.holderToImpersonate, provider, hre)
+        const balanceOfSender = await daiContract.balanceOf(tokenInfo.holderToImpersonate)
+        console.log(balanceOfSender)
+        console.log('hey')
+      const balanceBefore = await daiContract.balanceOf(recipient)
+
+
+      const parsedAmount = tokenInfo.decimals === 18 
+        ? hre.ethers.utils.parseEther(amount) 
+        : hre.ethers.utils.parseUnits(amount, tokenInfo.decimals) 
+
+      const transfer = await daiContract.transfer(recipient, parsedAmount)
+
+      const balanceAfter = await daiContract.balanceOf(recipient)
+      
+      const clean = (number: any) => {
+        return commify(
+          number.div(
+            hre.ethers.constants.WeiPerEther
+            ).toString()
+          )
       }
-    );
+
+      console.log(
+        "Your balance changed from: " 
+        + clean(balanceBefore) 
+        + ' => ' 
+        + clean(balanceAfter)
+      )
+    }
+  );
+  
+
+task("sendEther", async (taskArgs, hre) => {
+  const signers = await hre.ethers.getSigners();
+
+  const transactionHash = await signers[0].sendTransaction({
+    to: "0xfc083469EF154eb69FC0674cd6438530B6D92366",
+    value: hre.ethers.utils.parseEther("1000"), // Sends exactly 1.0 ether
+  });
+
+  console.log({transactionHash})
+})
+
+task("approve")
+  .addParam("token", "Token to approve")
+  .addParam("spender", "Address of spender")
+  .addParam("amount", "Amount to allow spender")
+  .setAction(async (taskArgs, hre) => {
+  const erc20Contract = await createERC20(hre, taskArgs.token)
+
+  const receipt = await erc20Contract.approve(taskArgs.spender, parseEther(taskArgs.amount))
+
+  console.log(receipt)
+})
+
+task("allowance-of")
+  .addParam("spender", "Address of spender")
+  .setAction(async (taskArgs, hre) => {
+  const erc20Contract = await createERC20(hre, taskArgs.token)
+
+  const receipt = await erc20Contract.allowance(taskArgs.spender, parseEther(taskArgs.amount))
+
+  console.log(receipt)
+})
+
+
+
+task('balance-of', async (taskArgs, hre) => {
+  const erc20Contract = await createERC20(hre, '0xba100000625a3754423978a60c9317c58a424e3D')
+
+  const balance = await erc20Contract.balanceOf('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
+
+  const clean = (number: any) => {
+    return commify(
+      number.div(
+        hre.ethers.constants.WeiPerEther
+        ).toString()
+      )
+  }
+  
+  console.log(clean(balance))
+})
 
 task('impersonate-account', 'Will impersonate given account')
       .addParam('account', 'Account to impersonate')
