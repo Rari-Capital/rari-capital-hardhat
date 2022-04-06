@@ -1,0 +1,53 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Keep3rV2Oracle",
+  "sourceName": "contracts/external/keep3r/Keep3rV2Oracle.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "length",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "observations",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "timestamp",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint112",
+          "name": "price0Cumulative",
+          "type": "uint112"
+        },
+        {
+          "internalType": "uint112",
+          "name": "price1Cumulative",
+          "type": "uint112"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b5061018d806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c80631f7b6d321461003b578063252c09d71461005d575b600080fd5b6100436100d3565b604051808261ffff16815260200191505060405180910390f35b6100896004803603602081101561007357600080fd5b81019080803590602001909291905050506100e8565b604051808463ffffffff168152602001836dffffffffffffffffffffffffffff168152602001826dffffffffffffffffffffffffffff168152602001935050505060405180910390f35b61ffff60009054906101000a900461ffff1681565b60008161ffff81106100f657fe5b016000915090508060000160009054906101000a900463ffffffff16908060000160049054906101000a90046dffffffffffffffffffffffffffff16908060000160129054906101000a90046dffffffffffffffffffffffffffff1690508356fea2646970667358221220688d6fba1365c00c1b87945a3a8d0e4725c919f313684059f1c5adbf7dce63be64736f6c634300060c0033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c80631f7b6d321461003b578063252c09d71461005d575b600080fd5b6100436100d3565b604051808261ffff16815260200191505060405180910390f35b6100896004803603602081101561007357600080fd5b81019080803590602001909291905050506100e8565b604051808463ffffffff168152602001836dffffffffffffffffffffffffffff168152602001826dffffffffffffffffffffffffffff168152602001935050505060405180910390f35b61ffff60009054906101000a900461ffff1681565b60008161ffff81106100f657fe5b016000915090508060000160009054906101000a900463ffffffff16908060000160049054906101000a90046dffffffffffffffffffffffffffff16908060000160129054906101000a90046dffffffffffffffffffffffffffff1690508356fea2646970667358221220688d6fba1365c00c1b87945a3a8d0e4725c919f313684059f1c5adbf7dce63be64736f6c634300060c0033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
