@@ -181,7 +181,12 @@ task('setup-turbo', "Will get all available safes")
         console.error(e)
     }
 
-
+    try {
+        await hre.ethers.provider.send("evm_setIntervalMining", [5000]);
+        console.log(colors.cyan.bold("\nMining blocks every 5 seconds"))
+    } catch (e) {
+        console.log(e)
+    }
     console.log(colors.green("\nTurbo setup successful!") + "\u0007")
     
 })
