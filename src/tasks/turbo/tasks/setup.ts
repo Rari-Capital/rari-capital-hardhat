@@ -4,7 +4,7 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { getSafesInfo } from './TurboLens';
 import { FEI, TRIBE, TurboAddresses } from '../utils/constants';
 import { getRecentEventDecoded } from '../utils/decodeEvents';
-import { createCERC20, createFEIContract, createMultiRolesAuthority, createTurboMaster } from '../utils/turboContracts';
+import { createCERC20, createFEIContract, createFuseVaultFactory, createMultiRolesAuthority, createTurboBooster, createTurboMaster } from '../utils/turboContracts';
 import colors from 'colors';
 import { impersonateAccount } from '../../../utils/impersonate';
 import { constants, Contract } from 'ethers';
@@ -121,8 +121,6 @@ task('setup-turbo', "Will get all available safes")
                     "\tTransaction sucessful. You can now use the Router and HH address 0 to create safes."
                 )
             )
-
-            console.log(colors.green("\nTurbo setup successful!"))
         } else {
             console.log(
                 colors.red(
@@ -134,5 +132,52 @@ task('setup-turbo', "Will get all available safes")
         console.error(e)
     } 
 
+
+    console.log(colors.yellow("\n5. Deploying strategies."))
+
+    console.log(colors.yellow("\t5.1 Deploying Tribe Convex Fei wrapper vault."))
+    // 1. Deploy new FuseERC4626
+
+    let tribeConvexFei: any
+    try {
+        const vaultFactory = createFuseVaultFactory(hre.ethers.provider.getSigner())
+        tribeConvexFei= await vaultFactory.deploy("0x001E407f497e024B9fb1CB93ef841F43D645CA4F", "Tribe Convex FEI", "wfFEI-156")
+        console.log(colors.green("\t\tDeployment successful."))
+    } catch (e) {
+        console.error(e)
+    }
+
+    console.log(colors.yellow("\t5.2 Deploying Olympus Pool Fei wrapper vault."))
+    // 1. Deploy new FuseERC4626
+
+    let olympusPoolFei: any
+    try {
+        const vaultFactory = createFuseVaultFactory(hre.ethers.provider.getSigner())
+        olympusPoolFei= await vaultFactory.deploy("0x17b1A2E012cC4C31f83B90FF11d3942857664efc", "Olympus Party FEI", "wfFEI-18")
+        console.log(colors.green("\t\tDeployment successful."))
+    } catch (e) {
+        console.error(e)
+    }
+
+    console.log(colors.yellow("\n5. Whitelisting strategies."))
+
+    try  {   
+        // 2.2 Impersonate the Fei Dao Timelock and setBoostCapForVault
+        const turboBoosterContract = await createTurboBooster(signer, 1)
+        await turboBoosterContract.setBoostCapForVault(tribeConvexFei.deployTransaction.creates, parseEther("2000000"))
+        await turboBoosterContract.setBoostCapForVault(olympusPoolFei.deployTransaction.creates, parseEther("2000000"))
+
+        const boostableVaults = await turboBoosterContract.getBoostableVaults()
+
+        console.log({boostableVaults}, boostableVaults.length)
+        if (boostableVaults.length === 3) {
+            console.log(colors.green("\tTransaction successful. Strategies are whitelisted."))
+        }
+    } catch (e) {
+        console.error(e)
+    }
+
+
+    console.log(colors.green("\nTurbo setup successful!"))
     
 })
