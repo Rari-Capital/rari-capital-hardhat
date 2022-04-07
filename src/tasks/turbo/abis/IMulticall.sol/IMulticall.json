@@ -19,5 +19,15 @@
       ],
       "stateMutability": "payable"
     }
-  ]
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployed_bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  }
 }

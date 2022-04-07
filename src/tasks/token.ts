@@ -6,6 +6,7 @@ import abi from 'erc-20-abi';
 import { commify, parseEther } from 'ethers/lib/utils';
 import { impersonateAccount } from '../utils/impersonate';
 import { createERC20 } from './turbo/utils/turboContracts';
+import { BigNumber, constants } from 'ethers';
 
 const getTokenInfo = (token: string) => {
     switch (token) {
@@ -125,21 +126,29 @@ task("sendEther", async (taskArgs, hre) => {
 task("approve")
   .addParam("token", "Token to approve")
   .addParam("spender", "Address of spender")
-  .addParam("amount", "Amount to allow spender")
+  // .addParam("amount", "Amount to allow spender")
   .setAction(async (taskArgs, hre) => {
   const erc20Contract = await createERC20(hre, taskArgs.token)
 
-  const receipt = await erc20Contract.approve(taskArgs.spender, parseEther(taskArgs.amount))
+  const MAX_AMOUNT = (BigNumber.from(2)
+  .pow(256))
+  .sub(constants.One);
+
+  console.log({MAX_AMOUNT})
+
+  const receipt = await erc20Contract.approve(taskArgs.spender, MAX_AMOUNT)
 
   console.log(receipt)
 })
 
 task("allowance-of")
+  .addParam("token", "Token to get allowance for")
   .addParam("spender", "Address of spender")
+  .addParam("owner", "Address of the owner")
   .setAction(async (taskArgs, hre) => {
   const erc20Contract = await createERC20(hre, taskArgs.token)
 
-  const receipt = await erc20Contract.allowance(taskArgs.spender, parseEther(taskArgs.amount))
+  const receipt = await erc20Contract.callStatic.allowance(taskArgs.owner, taskArgs.spender)
 
   console.log(receipt)
 })

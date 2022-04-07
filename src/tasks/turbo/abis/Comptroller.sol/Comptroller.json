@@ -481,6 +481,35 @@
     },
     {
       "type": "function",
+      "name": "getAccountLiquidity",
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
       "name": "markets",
       "inputs": [
         {
@@ -535,5 +564,15 @@
       ],
       "stateMutability": "view"
     }
-  ]
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployed_bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  }
 }
