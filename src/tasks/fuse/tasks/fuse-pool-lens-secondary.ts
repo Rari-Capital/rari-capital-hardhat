@@ -41,7 +41,7 @@ task('lens-get-unclaimed-rewards-by-supplier', "Will get rewards earned by the g
         [taskArgs.rd]
     )
 
-    let marketRewards = {}
+    let marketRewards: any = {}
     for (const market in rewards[2][0]) {
         marketRewards[rewards[2][0][market]] = [formatEther(rewards[3][0][market][0]), formatEther(rewards[3][0][market][1])]
     }

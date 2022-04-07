@@ -1,4 +1,4 @@
-export * from './fuse/deploying';
+export * from './fuse/tasks';
 // export * from './fuse/fetch-info';
 export * from './fuse/dapp-test';
 export * from './token';

@@ -3,6 +3,7 @@ import { task } from 'hardhat/config';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { getSafesInfo } from './TurboLens';
 import { TRIBE } from './utils/constants';
+import { getRecentEventDecoded } from './utils/decodeEvents';
 import { createTurboMaster } from './utils/turboContracts';
 
 
@@ -64,6 +65,14 @@ task('get-master-authority')
     console.log({authority})
 })
 
+task('master-get-events')
+    .addParam('id', 'ChainID')
+    .setAction(async (taskArgs, hre) => {
+    const turboMasterContract = await createTurboMaster(hre, taskArgs.id)
+    const event = await getRecentEventDecoded(turboMasterContract, turboMasterContract.filters.TurboSafeCreated)
+    console.log({event})
+})
+
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
 //////////////////////////////////////////////////////////////*/
@@ -76,6 +85,6 @@ task('master-create-safe')
 })
 
 export const getAllSafes = async (hre: HardhatRuntimeEnvironment) => {
-    const turboMasterContract = await createTurboMaster(hre, 31337  )
+    const turboMasterContract = await createTurboMaster(hre, 1)
     return await turboMasterContract.callStatic.getAllSafes()
 }

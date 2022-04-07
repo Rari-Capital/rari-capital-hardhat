@@ -13,7 +13,7 @@ import TurboBooster from "../abis/TurboBooster.sol/TurboBooster.json";
 import TurboSafe from "../abis/TurboSafe.sol/TurboSafe.json";
 import TurboAuthority from "../abis/Auth.sol/Authority.json";
 import MultiRolesAuthority from "../abis/MultiRolesAuthority.sol/MultiRolesAuthority.json";
-import Oracle from '../../../../artifacts/contracts/oracles/MasterPriceOracle.sol/MasterPriceOracle.json'
+import Oracle from '../abis/MasterPriceOracle.sol/MasterPriceOracle.json'
 
 // Utils
 import { Interface } from "ethers/lib/utils";

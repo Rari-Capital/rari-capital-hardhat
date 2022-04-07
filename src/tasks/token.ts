@@ -153,12 +153,13 @@ task("allowance-of")
   console.log(receipt)
 })
 
+task('balance-of')
+  .addParam('token', 'Token address')
+  .addParam('address', 'Address to get balance for')
+  .setAction( async (taskArgs, hre) => {
+  const erc20Contract = await createERC20(hre, taskArgs.token)
 
-
-task('balance-of', async (taskArgs, hre) => {
-  const erc20Contract = await createERC20(hre, '0xba100000625a3754423978a60c9317c58a424e3D')
-
-  const balance = await erc20Contract.balanceOf('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
+  const balance = await erc20Contract.balanceOf(taskArgs.address)
 
   const clean = (number: any) => {
     return commify(
@@ -176,4 +177,14 @@ task('impersonate-account', 'Will impersonate given account')
       .setAction(async (taskArgs, hre) => {
 
         await impersonateAccount(hre.ethers.provider, taskArgs.account)
+})
+
+task('mining', async (taskArgs, hre) => {
+  await hre.ethers.provider.send("evm_setIntervalMining", [5000]);
+  console.log('success')
+})
+
+task('stop-mining', async (taskArgs, hre) => {
+  await hre.ethers.provider.send("evm_setIntervalMining", [0]);
+  console.log('success')
 })

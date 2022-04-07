@@ -48,7 +48,6 @@ task('supply', 'Will supply amount of token to market.')
             taskArgs.amount,
             provider,
             taskArgs.underlying,
-            address,
         )
     }
 )
