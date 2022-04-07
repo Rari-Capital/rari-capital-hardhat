@@ -89,7 +89,6 @@ task('setup-turbo', "Will get all available safes")
 
         await impersonateAccount(hre.ethers.provider, TurboAddresses[taskArgs.id].TURBO_TIMELOCK)
         turboTimelockSigner = await hre.ethers.getSigner(TurboAddresses[taskArgs.id].TURBO_TIMELOCK)
-        console.log(colors.green("\tImpersonation successful"))
     } catch (e) {
         console.error(e)
     }
