@@ -1,5 +1,5 @@
 import "@nomiclabs/hardhat-ethers";
-import { Contract, providers } from "ethers";
+import { Contract, ContractFactory, providers, Signer } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 // ABIS
@@ -14,6 +14,7 @@ import TurboSafe from "../abis/TurboSafe.sol/TurboSafe.json";
 import TurboAuthority from "../abis/Auth.sol/Authority.json";
 import MultiRolesAuthority from "../abis/MultiRolesAuthority.sol/MultiRolesAuthority.json";
 import Oracle from '../abis/MasterPriceOracle.sol/MasterPriceOracle.json'
+import FuseERC4626 from '../abis/FuseERC4626.sol/FuseERC4626.json'
 
 // Utils
 import { Interface } from "ethers/lib/utils";
@@ -83,13 +84,14 @@ export const createTurboLens = async (hre: HardhatRuntimeEnvironment, id: number
   return turboLens;
 };
 
-export const createTurboBooster = async (hre: HardhatRuntimeEnvironment, id: number) => {
-  const signers = await hre.ethers.getSigners();
-
+export const createTurboBooster = async (
+  provider: providers.JsonRpcProvider | providers.Web3Provider | any, 
+  id: number
+) => {
   const turboBoosterContract = new Contract(
     TurboAddresses[id].BOOSTER,
     TurboBooster.abi,
-    signers[0]
+    provider
   );
 
   return turboBoosterContract;
@@ -134,6 +136,13 @@ export const createMultiRolesAuthority = async (
   return turboAuthorityContract;
 };
 
+export const createFuseVaultFactory = (signer: Signer) => {
+  return new ContractFactory(
+    FuseERC4626.abi,
+    FuseERC4626.bytecode,
+    signer
+  )
+}
 
 export const createCERC20 = async (hre: HardhatRuntimeEnvironment, tokenAddress: string) => {
   const signers = await hre.ethers.getSigners()
