@@ -1,10 +1,10 @@
 import '@nomiclabs/hardhat-ethers';
 import { task } from 'hardhat/config';
 import { Contract } from "ethers"
-import ERC20 from './abis/ERC20.sol/ERC20.json'
+import ERC20 from '../abis/ERC20.sol/ERC20.json'
 import { commify, formatEther, parseEther } from 'ethers/lib/utils';
-import { getRecentEventDecoded } from './utils/decodeEvents';
-import { createTurboSafe } from './utils/turboContracts';
+import { getRecentEventDecoded } from '../utils/decodeEvents';
+import { createTurboSafe } from '../utils/turboContracts';
 
 
 /*///////////////////////////////////////////////////////////////

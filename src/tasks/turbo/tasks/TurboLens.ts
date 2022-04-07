@@ -4,10 +4,10 @@ import { task } from 'hardhat/config';
 // Ethers
 import { BigNumber } from 'ethers';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
-import { callInterfaceWithMulticall, callStaticWithMultiCall, encodeCall } from '../../utils/multicall';
-import { createTurboLens, ITurboLens } from './utils/turboContracts';
+import { callInterfaceWithMulticall, callStaticWithMultiCall, encodeCall } from '../../../utils/multicall';
+import { createTurboLens, ITurboLens } from '../utils/turboContracts';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { TurboAddresses } from './utils/constants';
+import { TurboAddresses } from '../utils/constants';
 import { encode } from 'querystring';
 
 /** Types **/

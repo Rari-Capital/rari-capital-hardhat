@@ -1,9 +1,9 @@
 import '@nomiclabs/hardhat-ethers';
 import { task } from 'hardhat/config';
 import { commify, formatUnits, parseUnits } from 'ethers/lib/utils';
-import { createOracle, createTurboComptroller } from './utils/turboContracts';
-import { TurboAddresses } from './utils/constants';
-import { getEthUsdPriceBN } from '../../../cjs/utils/getUSDPriceBN';
+import { createOracle, createTurboComptroller } from '../utils/turboContracts';
+import { TurboAddresses } from '../utils/constants';
+import { getEthUsdPriceBN } from '../../../../cjs/utils/getUSDPriceBN';
 import { constants } from 'ethers';
 
 task('turbo-markets', "Will create an empty safe")

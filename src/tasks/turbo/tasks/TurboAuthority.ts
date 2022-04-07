@@ -1,8 +1,8 @@
 import '@nomiclabs/hardhat-ethers';
 import { providers } from 'ethers';
 import { task } from 'hardhat/config';
-import { TurboAddresses } from './utils/constants';
-import { createMultiRolesAuthority, createTurboAuthority, createTurboMaster, ITurboMaster } from './utils/turboContracts';
+import { TurboAddresses } from '../utils/constants';
+import { createMultiRolesAuthority, createTurboAuthority, createTurboMaster, ITurboMaster } from '../utils/turboContracts';
 
 
 /*///////////////////////////////////////////////////////////////

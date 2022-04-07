@@ -2,9 +2,9 @@ import '@nomiclabs/hardhat-ethers';
 import { task } from 'hardhat/config';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { getSafesInfo } from './TurboLens';
-import { TRIBE } from './utils/constants';
-import { getRecentEventDecoded } from './utils/decodeEvents';
-import { createTurboMaster } from './utils/turboContracts';
+import { TRIBE } from '../utils/constants';
+import { getRecentEventDecoded } from '../utils/decodeEvents';
+import { createTurboMaster } from '../utils/turboContracts';
 
 
 /*///////////////////////////////////////////////////////////////

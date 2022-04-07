@@ -2,9 +2,9 @@ import '@nomiclabs/hardhat-ethers';
 import { ContractFactory } from 'ethers';
 import { parseEther } from 'ethers/lib/utils';
 import { task } from 'hardhat/config';
-import { impersonateAccount } from '../../utils/impersonate';
-import { TurboAddresses } from './utils/constants';
-import { createFuseVaultFactory, createTurboBooster } from './utils/turboContracts';
+import { impersonateAccount } from '../../../utils/impersonate';
+import { TurboAddresses } from '../utils/constants';
+import { createFuseVaultFactory, createTurboBooster } from '../utils/turboContracts';
 
 
 /*///////////////////////////////////////////////////////////////

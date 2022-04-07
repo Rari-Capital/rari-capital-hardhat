@@ -1,14 +1,14 @@
 import "@nomiclabs/hardhat-ethers";
 import { task } from "hardhat/config";
 import { BigNumber, Contract } from "ethers";
-import { TurboAddresses, TRIBE } from "./utils/constants";
+import { TurboAddresses, TRIBE } from "../utils/constants";
 import { JsonRpcSigner } from "@ethersproject/providers";
 
 // Utils
 import { parseEther } from "ethers/lib/utils";
-import { checkAllowance, balanceOf } from "../../utils/erc20";
-import { callRouterWithMultiCall, encodeRouterCall, decodeRouterCall, sendRouterWithMultiCall } from "./utils/turboMulticall";
-import { createERC20, createTurboRouter, ITurboRouter } from "./utils/turboContracts"
+import { checkAllowance, balanceOf } from "../../../utils/erc20";
+import { callRouterWithMultiCall, encodeRouterCall, decodeRouterCall, sendRouterWithMultiCall } from "../utils/turboMulticall";
+import { createERC20, createTurboRouter, ITurboRouter } from "../utils/turboContracts"
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 task("create-safe", "Will create an empty safe")
