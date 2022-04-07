@@ -10,18 +10,22 @@ import { createFuseVaultFactory, createTurboBooster } from '../utils/turboContra
 /*///////////////////////////////////////////////////////////////
                         STATIC CALLS
 //////////////////////////////////////////////////////////////*/
-task('get-boostable-vaults', "Will get all boostable vaults", async (taskArgs, hre) => {
+task('get-boostable-vaults', "Will get all boostable vaults")
+    .addParam('id', "ChainID")
+    .setAction(async (taskArgs, hre) => {
 
-    const turboBoosterContract = await createTurboBooster(hre, 31337)
+    const turboBoosterContract = await createTurboBooster(hre, taskArgs.id)
 
     const boostableVaults = await turboBoosterContract.getBoostableVaults()
 
     console.log({boostableVaults})
 })
 
-task('get-is-frozen', "Will return true if boosting for all safes under master is frozen.", async (taskArgs, hre) => {
+task('get-is-frozen', "Will return true if boosting for all safes under master is frozen.")
+    .addParam('id', "ChainID")
+    .setAction(async (taskArgs, hre) => {
 
-    const turboBoosterContract = await createTurboBooster(hre, 31337)
+    const turboBoosterContract = await createTurboBooster(hre, taskArgs.id)
 
     const boostableVaults = await turboBoosterContract.frozen()
 
@@ -31,7 +35,6 @@ task('get-is-frozen', "Will return true if boosting for all safes under master i
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
 //////////////////////////////////////////////////////////////*/
-
 task('whitelist-strategy', "Will deploy a Fuse4626 vault and list it in the TurboBooster")
     .addParam('ctoken', 'CToken address that the FuseERC4626 will wrap')
     .addParam('name', 'Name of the vaults shares/token')

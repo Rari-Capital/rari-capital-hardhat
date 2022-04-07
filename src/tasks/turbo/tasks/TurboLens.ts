@@ -25,19 +25,18 @@ type SafeInfo = {
 /*///////////////////////////////////////////////////////////////
                         STATIC CALLS
 //////////////////////////////////////////////////////////////*/
-task('get-all-user-safes', "Will get all available safes")
+task('turbo-get-all-user-safes', "Will get all available safes created by the given user")
 .addParam('id', 'chainID')
     .addParam('user', 'User to filter for')
     .setAction(async (taskArgs, hre) => {
     
    const userSafes = await getAllUserSafes(hre, taskArgs.user, taskArgs.id)
 
-//    const safeInfo = await getSafesInfo(hre.ethers.provider, ['0x9b1d1ACb9BD6cFcd9159c5FA31F24B9383De1061'], 31337)
    console.log(userSafes)
 })
 
 
-task('get-lens-master', "Will get all available safes")
+task('turbo-get-lens-master', "Will get TurboLens address")
     .addParam('id', 'chainID')
     .setAction(async (taskArgs, hre) => {
     
@@ -48,7 +47,7 @@ task('get-lens-master', "Will get all available safes")
     console.log({master})
 })
 
-task('get-safe-info', "Will get all available safes")
+task('turbo-get-safe-info', "Will get all info for the given safe")
     .addParam('id', 'chainID')
     .addParam('safe', 'User to filter for')
     .setAction(async (taskArgs, hre) => {

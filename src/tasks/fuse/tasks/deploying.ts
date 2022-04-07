@@ -143,15 +143,4 @@ task('deploy-unitwap-v2', async(taskArgs, hre) => {
         )
 })
 
-// task('add-rd-to-comptroller')
-//         .addParam('rd', 'Rewards distributor to add')
-//         .addParam('comptroller', 'Comproller to add rd to')
-//         .setAction( async (taskArgs, hre) => {
-//         const {fuse, address, provider, fuseDeployed} = await configureEnv(hre)
-//         if (!fuseDeployed) return
-
-//         await addRdToPool(fuse, hre, taskArgs.rd, taskArgs.comptroller, )
-
-// })
-
 

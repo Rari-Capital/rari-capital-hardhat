@@ -2,13 +2,14 @@ import '@nomiclabs/hardhat-ethers';
 import { providers } from 'ethers';
 import { task } from 'hardhat/config';
 import { TurboAddresses } from '../utils/constants';
+import { isUserAuthorizedToCreateSafes } from '../utils/isUserAuthorizedToCreateSafes';
 import { createMultiRolesAuthority, createTurboAuthority, createTurboMaster, ITurboMaster } from '../utils/turboContracts';
 
 
 /*///////////////////////////////////////////////////////////////
                         STATIC CALLS
 //////////////////////////////////////////////////////////////*/
-task('is-user-authorized-to-create', "Returns boolean")
+task('turbo-is-user-authorized-to-create', "Returns boolean indicating given user clearance to create pools")
     .addParam('user', 'User/contract address')
     .addParam('target', 'Contract to call signature on')
     .addParam('id', 'ChainID')
@@ -19,7 +20,7 @@ task('is-user-authorized-to-create', "Returns boolean")
     console.log({isUserAuthorized})
 })
 
-task('is-capability-public', "Returns boolean")
+task('turbo-is-capability-public', "Returns boolean indicating if function is public")
     .addParam('authority', 'Address of the authority contract to query')
     .setAction(async (taskArgs, hre) => {
 
@@ -34,7 +35,7 @@ task('is-capability-public', "Returns boolean")
     console.log({authorized})
 })
 
-task('get-authority-owner')
+task('turbo-get-authority-owner', 'Will return address of the turboAuthority owner')
     .addParam('authority', 'Address of the authority contract to query')
     .setAction( async (taskArgs, hre) => {
     const turboBoosterContract = await createTurboAuthority(hre.ethers.provider, taskArgs.authority)
@@ -44,7 +45,7 @@ task('get-authority-owner')
     console.log({owner})
 })
 
-task('get-user-roles')
+task('get-user-roles', 'Will get roles of the given user in the given authority contract')
     .addParam('authority', 'Address of the authority contract to query')
     .addParam('address', 'User to get roles for')
     .setAction( async (taskArgs, hre) => {
@@ -58,30 +59,11 @@ task('get-user-roles')
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
 //////////////////////////////////////////////////////////////*/
-task('grant-dev-permission')
-    .addParam('user', 'User/contract address')
-    .addParam('target', 'Contract to call signature on')
-    .addParam('function', 'Function signature')
-    .addParam('authority', 'Address of the authority contract to query') 
-    .setAction( async (taskArgs, hre) => {
-    const turboBoosterContract = await createTurboAuthority(hre.ethers.provider, taskArgs.authority)
-})
-
-const isUserAuthorizedToCreateSafes = async (
-    provider: providers.JsonRpcProvider | providers.Web3Provider, 
-    authority: string,
-    user: string,
-    target: string
-) => {
-    const turboBoosterContract = await createTurboAuthority(provider, authority)
-
-    const functionSig = ITurboMaster.getSighash('createSafe')
-
-    const authorized = await turboBoosterContract.canCall(
-        user,
-        target,
-        functionSig
-    )
-
-    return authorized
-}
+// task('grant-dev-permission')
+//     .addParam('user', 'User/contract address')
+//     .addParam('target', 'Contract to call signature on')
+//     .addParam('function', 'Function signature')
+//     .addParam('authority', 'Address of the authority contract to query') 
+//     .setAction( async (taskArgs, hre) => {
+//     const turboBoosterContract = await createTurboAuthority(hre.ethers.provider, taskArgs.authority)
+// })

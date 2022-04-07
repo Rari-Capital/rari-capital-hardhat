@@ -9,9 +9,9 @@ import { formatEther, getAddress, parseEther } from 'ethers/lib/utils';
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
 //////////////////////////////////////////////////////////////*/
-task('flywheel-accrue', "Will publish a distribution to the MerkleOrchard.")
+task('flywheel-accrue', "Will accrue given flywheel on given market for the given address")
     .addParam('market', 'Market to accrue from')
-    .addParam('user', 'User to accrue for')
+    .addParam('address', 'User to accrue for')
     .addParam('flywheel', 'Flywheel attached to the market')
     .setAction(async (taskArgs, hre) => {
     const signer = await hre.ethers.getSigner('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
@@ -22,14 +22,12 @@ task('flywheel-accrue', "Will publish a distribution to the MerkleOrchard.")
         signer
     )
 
-    console.log(flywheelContract)
-
-    const receipt = await flywheelContract['accrue(address,address)'](getAddress(taskArgs.market), getAddress(taskArgs.user))
+    const receipt = await flywheelContract['accrue(address,address)'](getAddress(taskArgs.market), getAddress(taskArgs.address))
 
     console.log({receipt})
 })
 
-task('flywheel-set-owner', "Will publish a distribution to the MerkleOrchard.")
+task('flywheel-set-owner', "Will set owner of the given flywheel")
     .addParam('owner', 'Address of the new owner')
     .addParam('flywheel', 'Flywheel attached to the market')
     .setAction(async (taskArgs, hre) => {
@@ -45,17 +43,14 @@ task('flywheel-set-owner', "Will publish a distribution to the MerkleOrchard.")
         FlywheelABI.abi,
         signer
     )
-
-    console.log(flywheelContract)
-
     const receipt = await flywheelContract.setOwner(getAddress(taskArgs.owner))
 
     console.log({receipt})
 })
 
 
-task('flywheel-claim', "Will publish a distribution to the MerkleOrchard.")
-    .addParam('user', 'User to accrue for')
+task('flywheel-claim', "Will claim rewards on given flywheel for the given address")
+    .addParam('address', 'Address to accrue rewards for')
     .addParam('flywheel', 'Flywheel attached to the market')
     .setAction(async (taskArgs, hre) => {
     const signer = await hre.ethers.getSigner('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
@@ -66,9 +61,7 @@ task('flywheel-claim', "Will publish a distribution to the MerkleOrchard.")
         signer
     )
 
-    console.log(flywheelContract)
-
-    const receipt = await flywheelContract.claimRewards(taskArgs.user)
+    const receipt = await flywheelContract.claimRewards(taskArgs.address)
 
     console.log({receipt})
 })
@@ -90,7 +83,7 @@ task('flywheel-set-rewards-module', "Will set rewards module to the given addres
     console.log({receipt})
 })
 
-task('add-market-for-rewards')
+task('flyewheel-add-market', "Will add market to given flywheel")
     .addParam('market', 'Market to add')
     .addParam('flywheel', 'Flywheel to add market to')
     .setAction(async (taskArgs, hre) => {
@@ -110,14 +103,17 @@ task('add-market-for-rewards')
 
 })
 
-task('increase', async (taskArgs, hre) => {
+task('increase-time', "Will accelerate UNIX timestamp. Useful to simulate cycle completion for DynamicRewards module on a flywheel.")
+    .addParam('seconds', "Seconds to increase current UNIX timestamp with")
+    .setAction(async (taskArgs, hre) => {
     const blockNumBefore = await hre.ethers.provider.getBlockNumber();
     const blockBefore = await hre.ethers.provider.getBlock(blockNumBefore);
     const timestampBefore = blockBefore.timestamp;
-
+    
+    console.log()
     hre.ethers.provider.send(
         "evm_mine",
-        [1648688099 + 3600]
+        [blockBefore.timestamp + parseFloat(taskArgs.seconds)]
     )
 
     const blockNumAfter = await hre.ethers.provider.getBlockNumber();
@@ -132,7 +128,7 @@ task('increase', async (taskArgs, hre) => {
 /*///////////////////////////////////////////////////////////////
                         STATIC CALLS
 //////////////////////////////////////////////////////////////*/
-task('flywheel-accrued', "Will get accrued rewards for the given user in the given flywheel.")
+task('flywheel-accrued', "Will return accrued rewards for the given user")
     .addParam('user', 'User to accrue for')
     .addParam('flywheel', 'Flywheel attached to the market')
     .setAction(async (taskArgs, hre) => {
@@ -148,7 +144,7 @@ task('flywheel-accrued', "Will get accrued rewards for the given user in the giv
     console.log({accrued: formatEther(accrued)})
 })
 
-task('flywheel-strategy-state', "Will get the strategy's state.")
+task('flywheel-strategy-state', "Will get the strategy's state on the given flywheels.")
     .addParam('strategy', 'Strategy to get state for')
     .addParam('flywheel', 'Flywheel attached to the market/strategy')
     .setAction(async (taskArgs, hre) => {
@@ -166,7 +162,7 @@ task('flywheel-strategy-state', "Will get the strategy's state.")
     console.log({receipt})
 })
 
-task('flywheel-get-owner', "Will publish a distribution to the MerkleOrchard.")
+task('flywheel-get-owner', "Will get owner of the given flywheel.")
     .addParam('flywheel', 'Flywheel attached to the market/strategy')
     .setAction(async (taskArgs, hre) => {
     
@@ -180,7 +176,7 @@ task('flywheel-get-owner', "Will publish a distribution to the MerkleOrchard.")
     console.log({owner})
 })
 
-task('flywheel-get-rewards-module', "Will publish a distribution to the MerkleOrchard.")
+task('flywheel-get-rewards-module', "Will get address of rewards module of the given flywheel.")
     .addParam('flywheel', 'Flywheel attached to the market/strategy')
     .setAction(async (taskArgs, hre) => {
     
@@ -194,7 +190,7 @@ task('flywheel-get-rewards-module', "Will publish a distribution to the MerkleOr
     console.log({flywheelRewards})
 })
 
-task('rewards-cycle-length', "Will publish a distribution to the MerkleOrchard.")
+task('rewards-cycle-length', "Will get cycle lenght of the given flywheel.")
     .addParam('rewards', 'Flywheel attached to the market/strategy')
     .setAction(async (taskArgs, hre) => {
     
@@ -208,8 +204,8 @@ task('rewards-cycle-length', "Will publish a distribution to the MerkleOrchard."
     console.log({rewardsCycleLength})
 })
 
-task('rewards-token', "Will publish a distribution to the MerkleOrchard.")
-    .addParam('rewards', 'Flywheel attached to the market/strategy')
+task('flywheel-rewarded-token', "Will get rewarded token by the given flywheel.")
+    .addParam('flywheel', 'Flywheel attached to the market/strategy')
     .setAction(async (taskArgs, hre) => {
     
     const flywheelContract = new Contract(

@@ -51,15 +51,15 @@ const getTokenInfo = (token: string) => {
     }
   }
   
-  const getContract = (address: string, holderToImpersonate: string, provider: any, hre: any) => {
-    return new hre.ethers.Contract(
-      address,
-      abi,
-      provider.getSigner(holderToImpersonate)
-    )
-  }
+const getContract = (address: string, holderToImpersonate: string, provider: any, hre: any) => {
+  return new hre.ethers.Contract(
+    address,
+    abi,
+    provider.getSigner(holderToImpersonate)
+  )
+}
   
-task("sendToken")
+task("sendToken", "Will send amount of token to the given address. Note that amount should be within the impersonated account balance.")
   .addParam("to", "Transfer recipient")
   .addParam("amount", "Amount of tokens to be transfered in regular numbers")
   .addParam("token", "Symbol of the token to be transfered in caps. i.e. DAI, USDC")
@@ -123,25 +123,17 @@ task("sendEther", async (taskArgs, hre) => {
   console.log({transactionHash})
 })
 
-task("approve")
+task("approve", "Will approve max amount of token to the spender.")
   .addParam("token", "Token to approve")
   .addParam("spender", "Address of spender")
-  // .addParam("amount", "Amount to allow spender")
   .setAction(async (taskArgs, hre) => {
   const erc20Contract = await createERC20(hre, taskArgs.token)
-
-  const MAX_AMOUNT = (BigNumber.from(2)
-  .pow(256))
-  .sub(constants.One);
-
-  console.log({MAX_AMOUNT})
-
-  const receipt = await erc20Contract.approve(taskArgs.spender, MAX_AMOUNT)
+  const receipt = await erc20Contract.approve(taskArgs.spender, constants.MaxUint256)
 
   console.log(receipt)
 })
 
-task("allowance-of")
+task("allowance-of", "Will check owners allowance of spender")
   .addParam("token", "Token to get allowance for")
   .addParam("spender", "Address of spender")
   .addParam("owner", "Address of the owner")
@@ -153,7 +145,7 @@ task("allowance-of")
   console.log(receipt)
 })
 
-task('balance-of')
+task('balance-of', "Will get balance of address for the given token.")
   .addParam('token', 'Token address')
   .addParam('address', 'Address to get balance for')
   .setAction( async (taskArgs, hre) => {

@@ -6,13 +6,16 @@ import { TurboAddresses } from '../utils/constants';
 import { getEthUsdPriceBN } from '../../../../cjs/utils/getUSDPriceBN';
 import { constants } from 'ethers';
 
-task('turbo-markets', "Will create an empty safe")
+/*///////////////////////////////////////////////////////////////
+                        STATIC CALLS
+//////////////////////////////////////////////////////////////*/
+task('turbo-markets', "Will get all markets in the TurboPool")
     .addParam('id', 'chainID')
     .setAction( async (taskArgs, hre) => {
 
     const turboComptrollerContract = await createTurboComptroller(hre, taskArgs.id)
 
-    const markets = await turboComptrollerContract.getAllMarkets()
+    const markets = await turboComptrollerContract.callStatic.getAllMarkets()
 
     console.log({markets})
 })
@@ -22,7 +25,7 @@ task('turbo-tribe-cf', "Will get TRIBE Collateral Factor in the turbo pool")
     .setAction( async (taskArgs, hre) => {
     const turboComptrollerContract = await createTurboComptroller(hre, taskArgs.id)
 
-    const market = await turboComptrollerContract.markets("0x67E6C5c58eDE477bC790e8c050c2eb10fE3a835f")
+    const market = await turboComptrollerContract.callStatic.markets("0x67E6C5c58eDE477bC790e8c050c2eb10fE3a835f")
 
     console.log("Collateral Factor: ", formatUnits(market.collateralFactorMantissa))
 })
@@ -32,21 +35,21 @@ task('turbo-tribe-supply-cap', "Will get TRIBE's supply cap in the turbo pool")
     .setAction( async (taskArgs, hre) => {
     const turboComptrollerContract = await createTurboComptroller(hre, taskArgs.id)
 
-    const market = await turboComptrollerContract.supplyCaps("0x67E6C5c58eDE477bC790e8c050c2eb10fE3a835f")
+    const market = await turboComptrollerContract.callStatic.supplyCaps("0x67E6C5c58eDE477bC790e8c050c2eb10fE3a835f")
 
     console.log("Supply Cap: ", commify(formatUnits(market)))
 })
 
-task('turbo-oracle', "Will get all info for turbo markets")
+task('turbo-oracle', "Will oracle for the turbo pool")
     .addParam('id', 'chainID')
     .setAction(async (taskArgs, hre) => {
     const turboComptrollerContract = await createTurboComptroller(hre, taskArgs.id)
 
-    const oracle = await turboComptrollerContract.oracle()
+    const oracle = await turboComptrollerContract.callStatic.oracle()
     console.log(oracle)
 })
 
-task('get-oracle-for-asset')
+task('turbo-get-price-for-asset', "Will get price in USD for the given asset")
     .addParam('id', 'chainID')
     .addParam('oracle', 'Oracles address')
     .addParam('asset', 'Address of asset to get price for')

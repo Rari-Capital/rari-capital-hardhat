@@ -11,7 +11,7 @@ import { createFuseLensSecondary } from '../utils/fuseContracts';
                         STATIC CALLS
 //////////////////////////////////////////////////////////////*/
 task('lens-get-rewards-by-supplier', "Will get rewards earned by the given address as supplier of available markets.")
-    .addParam('account', 'Account to get earned rewards for')
+    .addParam('address', 'Account to get earned rewards for')
     .setAction(async (taskArgs, hre) => {
     
     const fuseLensSecondaryContract = createFuseLensSecondary(
@@ -20,14 +20,14 @@ task('lens-get-rewards-by-supplier', "Will get rewards earned by the given addre
 
 
     const rewards = await fuseLensSecondaryContract.callStatic.getRewardsDistributorsBySupplier(
-        taskArgs.account
+        taskArgs.address
     )
 
     console.log({rewards})
 })
 
 task('lens-get-unclaimed-rewards-by-supplier', "Will get rewards earned by the given address as supplier of available markets.")
-    .addParam('account', 'Account to get earned rewards for')
+    .addParam('address', 'Account to get earned rewards for')
     .addParam('rd', 'Reward distributor to query')
     .setAction(async (taskArgs, hre) => {
     
@@ -37,7 +37,7 @@ task('lens-get-unclaimed-rewards-by-supplier', "Will get rewards earned by the g
 
 
     const rewards = await fuseLensSecondaryContract.callStatic.getUnclaimedRewardsByDistributors(
-        taskArgs.account,
+        taskArgs.address,
         [taskArgs.rd]
     )
 

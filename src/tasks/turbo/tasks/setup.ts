@@ -1,16 +1,21 @@
 import '@nomiclabs/hardhat-ethers';
 import { task } from 'hardhat/config';
-import { HardhatRuntimeEnvironment } from 'hardhat/types';
-import { getSafesInfo } from './TurboLens';
+
+// Turbo utils
 import { FEI, TRIBE, TurboAddresses } from '../utils/constants';
-import { getRecentEventDecoded } from '../utils/decodeEvents';
 import { createCERC20, createFEIContract, createFuseVaultFactory, createMultiRolesAuthority, createTurboBooster, createTurboMaster } from '../utils/turboContracts';
-import colors from 'colors';
 import { impersonateAccount } from '../../../utils/impersonate';
-import { constants, Contract } from 'ethers';
-import CoreABI from '../abis/Core.sol/ICore.json'
-import { commify, formatEther, parseEther } from 'ethers/lib/utils';
 import { balanceOf } from '../../../utils/erc20';
+
+// Console.log utils
+import colors from 'colors';
+
+// Ethers
+import { constants, Contract } from 'ethers';
+import { commify, formatEther, parseEther } from 'ethers/lib/utils';
+
+// ABIs
+import CoreABI from '../abis/Core.sol/ICore.json'
 
 task('setup-turbo', "Will get all available safes")
     .addParam('id', 'chainID')
@@ -159,7 +164,7 @@ task('setup-turbo', "Will get all available safes")
         console.error(e)
     }
 
-    console.log(colors.yellow("\n5. Whitelisting strategies."))
+    console.log(colors.yellow("\n6. Whitelisting strategies."))
 
     try  {   
         // 2.2 Impersonate the Fei Dao Timelock and setBoostCapForVault
@@ -169,7 +174,6 @@ task('setup-turbo', "Will get all available safes")
 
         const boostableVaults = await turboBoosterContract.getBoostableVaults()
 
-        console.log({boostableVaults}, boostableVaults.length)
         if (boostableVaults.length === 3) {
             console.log(colors.green("\tTransaction successful. Strategies are whitelisted."))
         }
@@ -178,6 +182,6 @@ task('setup-turbo', "Will get all available safes")
     }
 
 
-    console.log(colors.green("\nTurbo setup successful!"))
+    console.log(colors.green("\nTurbo setup successful!") + "\u0007")
     
 })

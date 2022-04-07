@@ -10,7 +10,7 @@ import { createTurboSafe } from '../utils/turboContracts';
 /*///////////////////////////////////////////////////////////////
                         STATIC CALLS
 //////////////////////////////////////////////////////////////*/
-task('get-owner', "Will get the safe's owner")
+task('turbo-get-owner', "Will get the safe's owner")
     .addParam('safe', "TurboSafe to query.")
     .setAction( async (taskArgs, hre) => {
 
@@ -21,7 +21,7 @@ task('get-owner', "Will get the safe's owner")
     console.log({owner})
 })
 
-task('get-pool', "Gets pool associated to the safe")
+task('turbo-get-pool', "Gets pool associated to the safe")
         .addParam('safe', "TurboSafe to query.")
         .setAction(async (taskArgs, hre) => {
         const turboSafeContract = await createTurboSafe(hre, taskArgs.safe)
@@ -32,7 +32,7 @@ task('get-pool', "Gets pool associated to the safe")
 })
 
 
-task('get-fei-ctoken', "Gets pool associated to the safe")
+task('turbo-get-fei-ctoken', "Gets turbo market that the vault is borrowing from")
     .addParam('safe', "TurboSafe to query.")
     .setAction(async (taskArgs, hre) => {
     const turboSafeContract = await createTurboSafe(hre, taskArgs.safe)
@@ -42,7 +42,7 @@ task('get-fei-ctoken', "Gets pool associated to the safe")
     console.log({feiTurboCToken})
 })
 
-task('get-asset-turbo-ctoken', "Gets pool associated to the safe")
+task('turbo-get-asset-turbo-ctoken', "Gets pool associated to the safe")
     .addParam('safe', "TurboSafe to query.")
     .setAction(async (taskArgs, hre) => {
     const turboSafeContract = await createTurboSafe(hre, taskArgs.safe)
@@ -52,7 +52,7 @@ task('get-asset-turbo-ctoken', "Gets pool associated to the safe")
     console.log({assetTurboCToken})
 })
 
-task('get-safe-asset', "Gets pool associated to the safe")
+task('turbo-get-safe-asset', "Gets pool associated to the safe")
     .addParam('safe', "TurboSafe to query.")
     .setAction(async (taskArgs, hre) => {
     const turboSafeContract = await createTurboSafe(hre, taskArgs.safe)
@@ -62,7 +62,7 @@ task('get-safe-asset', "Gets pool associated to the safe")
     console.log({safeAsset})
 })
 
-task('get-total-assets', "Gets total assets held by the safe")
+task('turbo-get-total-assets', "Gets total assets held by the safe")
     .addParam('safe', "TurboSafe to query.")
     .setAction(async (taskArgs, hre) => {
     const turboSafeContract = await createTurboSafe(hre, taskArgs.safe)
@@ -72,7 +72,7 @@ task('get-total-assets', "Gets total assets held by the safe")
     console.log(commify(formatEther(safeAssets)), "TRIBE")
 })
 
-task('get-total-fei-boosted', "Gets total fei boosted by the given safe")
+task('turbo-get-total-fei-boosted', "Gets total fei boosted by the given safe")
     .addParam('safe', "TurboSafe to query.")
     .setAction(async (taskArgs, hre) => {
     const turboSafeContract = await createTurboSafe(hre, taskArgs.safe)
@@ -82,7 +82,7 @@ task('get-total-fei-boosted', "Gets total fei boosted by the given safe")
     console.log(commify(formatEther(safeAssets)), "FEI")
 })
 
-task('get-total-fei-boosted-for-vault', "Gets total fei boosted by the given safe to the given vault")
+task('turbo-get-total-fei-boosted-for-vault', "Gets total fei boosted by the given safe to the given vault")
     .addParam('safe', "TurboSafe to query.")
     .addParam('vault', "Vault to query")
     .setAction(async (taskArgs, hre) => {
@@ -97,7 +97,7 @@ task('get-total-fei-boosted-for-vault', "Gets total fei boosted by the given saf
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
 //////////////////////////////////////////////////////////////*/
-task('approve-safe', "Will approve safe to use user assets")
+task('turbo-approve-safe', "Will approve safe to use user assets")
     .addParam('safe', "TurboSafe to query.")
     .setAction(async (taskArgs, hre) => {
     const signers = await hre.ethers.getSigners()
@@ -116,7 +116,7 @@ task('approve-safe', "Will approve safe to use user assets")
     console.log({receipt})
 })
 
-task('safe-deposit', "Will deposit directly into the safe")
+task('turbo-safe-deposit', "Will deposit directly into the safe")
     .addParam('safe', "TurboSafe to query.")
     .setAction(async (taskArgs, hre) => {
     const turboSafeContract = await createTurboSafe(hre, taskArgs.safe)
@@ -129,7 +129,7 @@ task('safe-deposit', "Will deposit directly into the safe")
     console.log({receipt})
 })
 
-task('safe-boost', "Borrow Fei from the Turbo Fuse Pool and deposit it into an authorized Vault.")
+task('turbo-safe-boost', "Borrow Fei from the Turbo Fuse Pool and deposit it into an authorized Vault.")
     .addParam('safe', "The safe to use for boosting")
     .addParam('vault', "The vault to deposit borrowed Fei")
     .addParam('amount', "Amount of FEI to borrow")
@@ -142,7 +142,7 @@ task('safe-boost', "Borrow Fei from the Turbo Fuse Pool and deposit it into an a
     console.log({receipt})
 })
 
-task('safe-less', "Withdraw Fei from a deposited Vault and use it to repay debt in the Turbo Fuse Pool.")
+task('turbo-safe-less', "Withdraw Fei from a deposited Vault and use it to repay debt in the Turbo Fuse Pool.")
     .addParam('safe', 'The safe to use for lessing')
     .addParam('vault', 'Vault to withdraw from')
     .addParam('amount', 'Amount to withdraw')
@@ -155,7 +155,7 @@ task('safe-less', "Withdraw Fei from a deposited Vault and use it to repay debt 
     console.log({receipt})
 })
 
-task('safe-slurp', "Accrue any interest earned by the Safe in the Vault.")
+task('turbo-safe-slurp', "Accrue any interest earned by the Safe in the Vault.")
     .addParam('safe', "Safe to use for slurping")
     .addParam('vault', "Vault to slurp interest from")
     .setAction(async (taskArgs, hre) => {
@@ -169,7 +169,7 @@ task('safe-slurp', "Accrue any interest earned by the Safe in the Vault.")
 
 })
 
-task('safe-sweep', "Claim tokens sitting idly in the Safe.")
+task('turbo-safe-sweep', "Claim tokens sitting idly in the Safe.")
     .addParam('safe', 'Safe to sweep from')
     .addParam('to', 'Receiver of the sweeped tokens')
     .addParam('token', 'Token to sweep and send')
@@ -188,7 +188,7 @@ task('safe-sweep', "Claim tokens sitting idly in the Safe.")
     console.log({decodedEvent})
 })
 
-task('safe-gib', "Impound a specific amount of a Safe's collateral")
+task('turbo-safe-gib', "Impound a specific amount of a Safe's collateral")
     .addParam('safe', 'Safe to impound from')
     .addParam('to', 'Address to send impounded collateral to')
     .addParam('amount', 'Amount of collateral to impound')

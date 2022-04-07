@@ -10,7 +10,7 @@ import { createTurboMaster } from '../utils/turboContracts';
 /*///////////////////////////////////////////////////////////////
                         STATIC CALLS
 //////////////////////////////////////////////////////////////*/
-task('get-all-safes', "Will get all available safes")
+task('turbo-get-all-safes', "Will get all available safes")
     .addParam('id', 'chainID')
     .setAction( async (taskArgs, hre) => {
    const allSafes: string[] = await getAllSafes(hre)
@@ -18,7 +18,7 @@ task('get-all-safes', "Will get all available safes")
    console.log({allSafes})
 })
 
-task('get-safe-id', "Will get the given safe's ID")
+task('turbo-get-safe-id', "Will get the given safe's ID")
     .addParam('id', 'ChainID')
     .addParam('safe', "TurboSafe to query.")
     .setAction( async (taskArgs, hre) => {
@@ -30,7 +30,7 @@ task('get-safe-id', "Will get the given safe's ID")
     console.log({safeId})
 })
 
-task('get-total-boosted', " total amount of Fei boosted by Safes using it as collateral")
+task('turbo-get-total-boosted', "Total amount of Fei boosted by Safes using it as collateral")
     .addParam('id', 'ChainID')
     .setAction( async (taskArgs, hre) => {
 
@@ -41,7 +41,7 @@ task('get-total-boosted', " total amount of Fei boosted by Safes using it as col
     console.log({totalBoosted})
 })
 
-task('get-comptroller')
+task('turbo-get-comptroller', "Will get comptroller address for the Turbo pool")
     .addParam('id', 'ChainID') 
     .setAction(async (taskArgs, hre) => {
     const turboMasterContract = await createTurboMaster(hre, taskArgs.id)
@@ -49,7 +49,7 @@ task('get-comptroller')
     console.log(comptroller)
 })
 
-task('get-master-owner')
+task('turbo-get-master-owner', "Will get the turbo master's owner")
     .addParam('id', 'ChainID')
     .setAction(async (taskArgs, hre) => {
     const turboMasterContract = await createTurboMaster(hre, taskArgs.id)
@@ -57,7 +57,7 @@ task('get-master-owner')
     console.log({owner})
 })
 
-task('get-master-authority')
+task('turbo-get-master-authority', "Will get authority ruling the turbo master")
     .addParam('id', 'ChainID')
     .setAction(async (taskArgs, hre) => {
     const turboMasterContract = await createTurboMaster(hre, taskArgs.id)
@@ -65,7 +65,7 @@ task('get-master-authority')
     console.log({authority})
 })
 
-task('master-get-events')
+task('turbo-master-get-events', "Will get recent TurboSafeCreated events")
     .addParam('id', 'ChainID')
     .setAction(async (taskArgs, hre) => {
     const turboMasterContract = await createTurboMaster(hre, taskArgs.id)
@@ -76,7 +76,7 @@ task('master-get-events')
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
 //////////////////////////////////////////////////////////////*/
-task('master-create-safe')
+task('turbo-master-create-safe')
     .addParam('id', 'ChainID')
     .setAction(async (taskArgs, hre) => {
     const turboMasterContract = await createTurboMaster(hre, taskArgs.id)

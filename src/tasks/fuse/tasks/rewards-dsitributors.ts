@@ -1,17 +1,17 @@
-import { task } from "hardhat/config";
-import { createRD } from "../utils/fuseContracts";
+// import { task } from "hardhat/config";
+// import { createRD } from "../utils/fuseContracts";
 
-task('comptroller-get-admin')
-    .addParam('rd', 'Comptroller to get admin from')
-    .setAction(async (taskArgs, hre) => {
+// task('comptroller-get-admin')
+//     .addParam('rd', 'Comptroller to get admin from')
+//     .setAction(async (taskArgs, hre) => {
         
-        const comptrollerContract = createRD(
-            hre.ethers.provider,
-            taskArgs.rd
-        )
+//         const comptrollerContract = createRD(
+//             hre.ethers.provider,
+//             taskArgs.rd
+//         )
 
            
-        const admin = await comptrollerContract.admin()
+//         const admin = await comptrollerContract.admin()
 
-        console.log({admin})
-})
+//         console.log({admin})
+// })

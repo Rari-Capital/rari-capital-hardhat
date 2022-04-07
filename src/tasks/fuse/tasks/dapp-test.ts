@@ -1,7 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { task } from 'hardhat/config';
 
-
 // Colors
 import colors from 'colors';
 
@@ -10,7 +9,6 @@ import { FuseDeployment } from '../../../utils/fuse/deploy/deployer';
 import { deployEmptyPool } from '../../../utils/fuse/deploy/deploy-empty-pool';
 import { deployMarket } from '../../../utils/fuse/deploy/deploy-market';
 import { configureEnv } from '../../../utils';
-
 
 task('setup', 'Sets up the environment expected for dApp tests', async (taskArgs, hre) => {
         // 1. Deploy fuse.

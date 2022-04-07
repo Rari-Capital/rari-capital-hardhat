@@ -11,7 +11,7 @@ import { callRouterWithMultiCall, encodeRouterCall, decodeRouterCall, sendRouter
 import { createERC20, createTurboRouter, ITurboRouter } from "../utils/turboContracts"
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
-task("create-safe", "Will create an empty safe")
+task("turbo-router-create-safe", "Will create an empty safe")
   .addParam('id', 'chainID')
   .setAction( async (taskArgs, hre) => {
   const turboRouterContract = await createTurboRouter(hre, taskArgs.id);
@@ -21,7 +21,7 @@ task("create-safe", "Will create an empty safe")
   console.log({ receipt });
 });
 
-task("approve-router", "Will approve router")
+task("turbo-approve-router", "Will approve router")
   .addParam('id', 'chainID') 
   .setAction( async (taskArgs, hre) => {
   const signers = await hre.ethers.getSigners();
@@ -36,7 +36,7 @@ task("approve-router", "Will approve router")
   console.log({ receipt });
 });
 
-task("create-safe-and-deposit", "")
+task("turbo-create-safe-and-deposit", "")
   .addParam('id', 'chainID')
   .setAction(async (taskArgs, hre) => {
   const turboRouterContract = await createTurboRouter(hre, taskArgs.id);
@@ -46,15 +46,6 @@ task("create-safe-and-deposit", "")
     parseEther("100"),
     parseEther("100")
   );
-
-  console.log({ receipt });
-});
-
-task("router-create-safe")
-  .addParam('id', 'chainID')
-  .setAction( async (taskArgs, hre) => {
-  const turboRouterContract = await createTurboRouter(hre, taskArgs.id);
-  const receipt = await turboRouterContract.createSafe(TRIBE);
 
   console.log({ receipt });
 });

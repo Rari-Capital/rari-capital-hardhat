@@ -1,7 +1,10 @@
 import { task } from "hardhat/config";
 import { createComptroller } from "../utils/fuseContracts";
 
-task('comptroller-get-admin')
+/*///////////////////////////////////////////////////////////////
+                        STATIC CALLS
+//////////////////////////////////////////////////////////////*/
+task('comptroller-get-admin', "Will get admin of given comptroller")
     .addParam('comptroller', 'Comptroller to get admin from')
     .setAction(async (taskArgs, hre) => {
         
@@ -16,7 +19,7 @@ task('comptroller-get-admin')
         console.log({admin})
 })
 
-task('comptroller-get-rewards-distributors')
+task('comptroller-get-rewards-distributors', "Will get all reward distributors that are added to the given comptroller")
     .addParam('comptroller', 'Comptroller to get admin from')
     .setAction(async (taskArgs, hre) => {
         
@@ -31,7 +34,10 @@ task('comptroller-get-rewards-distributors')
         console.log({rewardsDistributors})
 })
 
-task('comptroller-add-rd')
+/*///////////////////////////////////////////////////////////////
+                        METHOD CALLS
+//////////////////////////////////////////////////////////////*/
+task('comptroller-add-rd', 'Will add the given rewards distributor to the comptroller')
     .addParam('comptroller', 'Comptroller to get admin from')
     .addParam('rd', 'Rewards distributor to add')
     .setAction(async (taskArgs, hre) => {
