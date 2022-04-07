@@ -15,10 +15,11 @@ import TurboAuthority from "../abis/Auth.sol/Authority.json";
 import MultiRolesAuthority from "../abis/MultiRolesAuthority.sol/MultiRolesAuthority.json";
 import Oracle from '../abis/MasterPriceOracle.sol/MasterPriceOracle.json'
 import FuseERC4626 from '../abis/FuseERC4626.sol/FuseERC4626.json'
+import FeiABI from '../abis/Fei.sol/Fei.json'
 
 // Utils
 import { Interface } from "ethers/lib/utils";
-import { TurboAddresses } from "../utils/constants";
+import { FEI, TurboAddresses } from "../utils/constants";
 
 
 //** Contracts **/
@@ -135,6 +136,14 @@ export const createMultiRolesAuthority = async (
 
   return turboAuthorityContract;
 };
+
+export const createFEIContract = (provider: any) => {
+  return new Contract(
+    FEI,
+    FeiABI.abi,
+    provider
+  )
+}
 
 export const createFuseVaultFactory = (signer: Signer) => {
   return new ContractFactory(
