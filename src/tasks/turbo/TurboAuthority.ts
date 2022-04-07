@@ -44,6 +44,17 @@ task('get-authority-owner')
     console.log({owner})
 })
 
+task('get-user-roles')
+    .addParam('authority', 'Address of the authority contract to query')
+    .addParam('address', 'User to get roles for')
+    .setAction( async (taskArgs, hre) => {
+    const turboBoosterContract = await createMultiRolesAuthority(hre, taskArgs.authority)
+
+    const roles = await turboBoosterContract.getUserRoles(taskArgs.address)
+
+    console.log({roles})
+})
+
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
 //////////////////////////////////////////////////////////////*/
