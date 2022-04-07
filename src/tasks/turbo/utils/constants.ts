@@ -8,8 +8,9 @@ export const TurboAddresses: TurboAddresses = {
         BOOSTER: "0xf6c7f4a90b10c9eaaf2a6676ce81fe8673453e72",
         CLERK: "0x1F45Af9bfDb6ab4B95311e27BEcA59B33A7E17D7",
         COMPTROLLER: "",
-        TURBO_AUTHORITY: "",
-        ORACLE: "0x1887118E49e0F4A78Bd71B792a49dE03504A764D"
+        TURBO_AUTHORITY: "0x286c9724a0C1875233cf17A4ffE475A0BD8158dE",
+        ORACLE: "0x1887118E49e0F4A78Bd71B792a49dE03504A764D",
+        FEI_DAO_TIMELOCK: "0xd51dbA7a94e1adEa403553A8235C302cEbF41a3c"
     },
     31337: {
         MASTER: "0xf2e513d3b4171bb115cb9ffc45555217fbbbd00c",
@@ -20,8 +21,9 @@ export const TurboAddresses: TurboAddresses = {
         BOOSTER: "0xf6c7f4a90b10c9eaaf2a6676ce81fe8673453e72",
         CLERK: "0x1F45Af9bfDb6ab4B95311e27BEcA59B33A7E17D7",
         COMPTROLLER: "",
-        TURBO_AUTHORITY: "",
-        ORACLE: "0x1887118E49e0F4A78Bd71B792a49dE03504A764D"
+        TURBO_AUTHORITY: "0x286c9724a0C1875233cf17A4ffE475A0BD8158dE",
+        ORACLE: "0x1887118E49e0F4A78Bd71B792a49dE03504A764D",
+        FEI_DAO_TIMELOCK: "0xd51dbA7a94e1adEa403553A8235C302cEbF41a3c"
     }
 }
 
@@ -36,7 +38,8 @@ type TurboAddresses = {
         CLERK: string,
         COMPTROLLER: string
         TURBO_AUTHORITY: string,
-        ORACLE: string
+        ORACLE: string,
+        FEI_DAO_TIMELOCK: string
     }
 }
 
