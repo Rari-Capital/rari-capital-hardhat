@@ -1,6 +1,6 @@
 // Types
 import { HardhatRuntimeEnvironment } from "hardhat/types"
-import { Fuse } from "../../../../cjs"
+import { Fuse } from "../../../tasks/fuse/utils/cjs"
 
 /**
  * @param hre Hardhat runtime environment, passed from task.

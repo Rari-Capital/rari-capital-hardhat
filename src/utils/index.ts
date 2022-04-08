@@ -1,5 +1,5 @@
 // Rari SDK
-import { Fuse } from "../../cjs";
+import { Fuse } from "../tasks/fuse/utils/cjs";
 
 // Types
 import { HardhatRuntimeEnvironment } from "hardhat/types";

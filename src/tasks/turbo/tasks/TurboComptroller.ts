@@ -3,7 +3,7 @@ import { task } from 'hardhat/config';
 import { commify, formatUnits, parseUnits } from 'ethers/lib/utils';
 import { createOracle, createTurboComptroller } from '../utils/turboContracts';
 import { TurboAddresses } from '../utils/constants';
-import { getEthUsdPriceBN } from '../../../../cjs/utils/getUSDPriceBN';
+import { getEthUsdPriceBN } from '../../fuse/utils/cjs/utils/getUSDPriceBN';
 import { constants } from 'ethers';
 
 /*///////////////////////////////////////////////////////////////

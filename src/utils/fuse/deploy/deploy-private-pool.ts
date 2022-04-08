@@ -1,5 +1,5 @@
 // Types
-import { Fuse } from '../../../../cjs/index';
+import { Fuse } from '../../../tasks/fuse/utils/cjs/index';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 /**
