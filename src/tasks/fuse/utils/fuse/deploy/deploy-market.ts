@@ -3,7 +3,7 @@ import { parseEther } from '@ethersproject/units';
 import { WeiPerEther } from '@ethersproject/constants'
 
 // Types
-import { Fuse } from '../../../tasks/fuse/utils/cjs/index';
+import { Fuse } from '../../cjs/index';
 
 /**
  * @param fuse - An initiated Fuse instance

@@ -1,5 +1,5 @@
 // Types
-import { Fuse } from '../../../tasks/fuse/utils/cjs';
+import { Fuse } from '../../cjs';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 // Colors

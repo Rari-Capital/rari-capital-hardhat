@@ -3,7 +3,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { Zero } from '@ethersproject/constants';
 
 // Rari SDK
-import { Fuse } from "../../../../tasks/fuse/utils/cjs";
+import { Fuse } from "../../../cjs";
 
 /**
  * 

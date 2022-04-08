@@ -2,12 +2,12 @@ import '@nomiclabs/hardhat-ethers';
 import { task } from 'hardhat/config';
 
 // // Fuse SDK
-import { collateral } from '../../../utils/fuse/market-interactions/collateral/collateral';
+import { collateral } from '../utils/fuse/market-interactions/collateral/collateral';
 
 // Hardhat helpers
 import { configureEnv } from '../../../utils';
-import { checkAllowanceAndApprove } from '../../../utils/fuse/market-interactions/utils/checkAllowanceAndApprove';
-import { marketInteraction } from '../../../utils/fuse/market-interactions/market-interaction';
+import { checkAllowanceAndApprove } from '../utils/fuse/market-interactions/utils/checkAllowanceAndApprove';
+import { marketInteraction } from '../utils/fuse/market-interactions/market-interaction';
 
 task('supply', 'Will supply amount of token to market.')
     .addParam('underlying', 'Address for the underlying token of the market to supply to. 0 if its ether.')

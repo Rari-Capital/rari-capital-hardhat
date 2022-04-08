@@ -1,13 +1,16 @@
 // Types
-import { Fuse } from '../../../tasks/fuse/utils/cjs/index';
+import { Fuse } from '../../cjs/index';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
+
+// Colors
+import colors from 'colors';
 
 /**
  * @param fuse - An initiated fuse sdk instance.
  * @param hre - Hardhat runtime environment, passed from task.
  * @param address - User's address.
  */
-export async function deployPrivatePool(
+export async function deployEmptyPool(
   fuse: Fuse, 
   hre: HardhatRuntimeEnvironment, 
   address: string
@@ -43,7 +46,7 @@ export async function deployPrivatePool(
         // 3. Deploy Pool
         const [_poolAddress] = await fuse.deployPool(
                 "Test Pool",
-                true,
+                isWhitelisted,
                 bigCloseFactor,
                 bigLiquidationIncentive,
                 priceOracleAddress,
@@ -51,10 +54,7 @@ export async function deployPrivatePool(
                 { 
                         from: address
                 },
-                [
-                        "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-                        "0xfff826d97AC92459975bE8FcE9cE91fF850fe045"
-                ]
+                isWhitelisted ? [] : null
         );
 
         return _poolAddress
