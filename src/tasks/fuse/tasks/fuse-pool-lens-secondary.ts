@@ -1,10 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
-import {  Contract } from 'ethers';
-import FlywheelABI from '../abis/FlywheelCore.json'
-import FuseFlywheelABI from '../abis/FuseFlywheelCore.json'
-import FuseFlywheelRewardsABI from '../abis/FuseFlywheelDynamicRewards.json'
 import { task } from 'hardhat/config';
-import { formatEther, getAddress } from 'ethers/lib/utils';
+import { formatEther } from 'ethers/lib/utils';
 import { createFuseLensSecondary } from '../utils/fuseContracts';
 
 /*///////////////////////////////////////////////////////////////

@@ -1,9 +1,9 @@
 import { BaseProvider } from "@ethersproject/providers";
 import { Contract } from "ethers";
 import ComptrollerABI from "../../turbo/abis/Comptroller/comptroller.json";
-import CTokenABI from "../../../../artifacts/contracts/external/compound/CToken.sol/CToken.json"
+import CTokenABI from "../abis/artifacts/contracts/external/compound/CToken.sol/CToken.json"
 import RewardsDistributorABI from "../abis/RewardsDistributorABI.json"
-import FuseLensSecondary from '../../../../artifacts/contracts/FusePoolLensSecondary.sol/FusePoolLensSecondary.json'
+import FuseLensSecondary from '../abis/artifacts/contracts/FusePoolLensSecondary.sol/FusePoolLensSecondary.json'
 
 export const createComptroller = (
     provider: BaseProvider,

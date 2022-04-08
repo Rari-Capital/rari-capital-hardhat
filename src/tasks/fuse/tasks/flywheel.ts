@@ -4,7 +4,7 @@ import FlywheelABI from '../abis/FlywheelCore.json'
 import FuseFlywheelABI from '../abis/FuseFlywheelCore.json'
 import FuseFlywheelRewardsABI from '../abis/FuseFlywheelDynamicRewards.json'
 import { task } from 'hardhat/config';
-import { formatEther, getAddress, parseEther } from 'ethers/lib/utils';
+import { formatEther, getAddress } from 'ethers/lib/utils';
 
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
