@@ -2,20 +2,15 @@
 // import { task } from 'hardhat/config';
 
 // // Fuse SDK
-// import Fuse from '../../cjs/Fuse';
 // import { BigNumber } from 'ethers';
 
 // // Hardhat helpers
-// import { configureEnv } from '../utils';
-// import { fetchCTokenData } from '../../@rari-capital/fetch-data/fetch-ctoken-data';
-// import { fetchFusePoolData } from '../../@rari-capital/fetch-data/fetch-fuse-pool-data';
-// import { getPoolAssetsWithData } from '../../@rari-capital/lens';
+// import { configureEnv } from '../../../utils';
 
 // import { Web3Provider, JsonRpcProvider } from '@ethersproject/providers';
 // import { Contract } from '@ethersproject/contracts';
 // import { Interface } from '@ethersproject/abi'
 // import { parseUnits } from '@ethersproject/units';
-// import { getDecimals } from '../utils/fuse/market-interactions/market-interaction';
 
 // task('get-pool-info', 'Will return given pool\'s info')
 //         .addParam("comptroller", "Pool's comptroller address.")
