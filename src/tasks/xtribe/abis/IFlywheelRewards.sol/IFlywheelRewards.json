@@ -1,0 +1,64 @@
+{
+  "abi": [
+    {
+      "type": "function",
+      "name": "flywheel",
+      "inputs": [],
+      "outputs": [
+        {
+          "internalType": "contract FlywheelCore",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "getAccruedRewards",
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "strategy",
+          "type": "address"
+        },
+        {
+          "internalType": "uint32",
+          "name": "lastUpdatedTimestamp",
+          "type": "uint32"
+        }
+      ],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "rewards",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "rewardToken",
+      "inputs": [],
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployed_bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  }
+}

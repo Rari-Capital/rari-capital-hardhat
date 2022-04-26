@@ -1,0 +1,19 @@
+{
+  "abi": [
+    {
+      "type": "error",
+      "name": "NonContractError",
+      "inputs": []
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployed_bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  }
+}

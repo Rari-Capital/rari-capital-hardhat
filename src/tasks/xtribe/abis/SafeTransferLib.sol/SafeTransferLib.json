@@ -1,0 +1,36 @@
+{
+  "abi": [
+    {
+      "type": "event",
+      "name": "Debug",
+      "inputs": [
+        {
+          "name": "one",
+          "type": "bool",
+          "indexed": false
+        },
+        {
+          "name": "two",
+          "type": "bool",
+          "indexed": false
+        },
+        {
+          "name": "retsize",
+          "type": "uint256",
+          "indexed": false
+        }
+      ],
+      "anonymous": false
+    }
+  ],
+  "bytecode": {
+    "object": "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212204bc644b6441b50224f5b96f5a85f87d22dc8ee5a57c6520bb9a131d7ce8b2b1f64736f6c634300080a0033",
+    "sourceMap": "583:5251:26:-:0;;;;;;;;;;;;;;;-1:-1:-1;;;583:5251:26;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployed_bytecode": {
+    "object": "0x73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212204bc644b6441b50224f5b96f5a85f87d22dc8ee5a57c6520bb9a131d7ce8b2b1f64736f6c634300080a0033",
+    "sourceMap": "583:5251:26:-:0;;;;;;;;",
+    "linkReferences": {}
+  }
+}
