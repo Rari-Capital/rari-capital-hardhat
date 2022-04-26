@@ -53,6 +53,7 @@
     "bad-words": "^3.0.4",
     "colors": "^1.4.0",
     "erc-20-abi": "^1.0.0",
+    "eth-permit": "^0.2.1",
     "ethereumjs-util": "^7.1.4"
   }
 }
