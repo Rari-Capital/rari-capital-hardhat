@@ -1,9 +1,7 @@
 import { BigNumber, Contract } from "ethers";
 import { JsonRpcProvider, Web3Provider, JsonRpcSigner } from "@ethersproject/providers";
 import { Interface } from "ethers/lib/utils";
-
-import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { filterOnlyObjectProperties } from "./fuse/misc";
+import { filterOnlyObjectProperties } from "../tasks/fuse/utils/fuse/misc";
 
 type EncodedCall = [string, any]
 

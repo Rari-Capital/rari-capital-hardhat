@@ -30,6 +30,8 @@ task('setup-turbo', "Will get all available safes")
         value: hre.ethers.utils.parseEther("10"), // Sends exactly 1.0 ether
     });
 
+    const user = signers[1]
+
     console.log(colors.green("\tFei DAI Timelock seeded with: " + hre.ethers.utils.formatEther(transactionHash.value) + " ETH"))
 
     let signer
@@ -50,8 +52,8 @@ task('setup-turbo', "Will get all available safes")
     )
 
     try {
-        await CoreContract.allocateTribe("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", parseEther("10000000"))
-        const balance = await balanceOf("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", TRIBE, signer)
+        await CoreContract.allocateTribe(user.address, parseEther("10000000"))
+        const balance = await balanceOf(user.address, TRIBE, signer)
 
         console.log(colors.green("\tTransfer successful. Account 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 holds: " + commify(formatEther(balance)) + " TRIBE"))
     } catch (e) {
@@ -112,13 +114,13 @@ task('setup-turbo', "Will get all available safes")
         )
 
         await impersonatedTurboAuthorityContract?.setUserRole(
-            "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+            user.address,
             4,
             true
         )
 
         const routerHasRole = await impersonatedTurboAuthorityContract?.callStatic.doesUserHaveRole(TurboAddresses[taskArgs.id].ROUTER, 4)
-        const hhHasRole = await impersonatedTurboAuthorityContract?.callStatic.doesUserHaveRole("0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",4)
+        const hhHasRole = await impersonatedTurboAuthorityContract?.callStatic.doesUserHaveRole(user.address,4)
 
         if (routerHasRole && hhHasRole) {
             console.log(

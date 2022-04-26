@@ -58,7 +58,7 @@ task("router-create-safe-and-deposit-and-boost")
   const receipt = turboRouterContract.createSafeAndDepositAndBoost
 })
 
-task("", "Will deposit to given safe")
+task("turbo-router-test", "Will deposit to given safe")
   .addParam("amount", "amount of TRIBE to collateralize")
   .addParam("vault", "Vault to boost")
   .addParam("boost", "Amount to boost")
@@ -285,6 +285,24 @@ task(
     console.log({ approval });
   }
 );
+
+task("router-deposit", )
+  .addParam("token", "Token's contract address")
+  .addParam("amount", "Amount to deposit")
+  .addParam("id", "Chain ID")
+  .setAction(async (taskArgs, hre) => {
+    const signers = await hre.ethers.getSigners();
+   
+    const approval = await checkAllowance(
+      signers[0].address,
+      TurboAddresses[taskArgs.id].ROUTER,
+      TRIBE,
+      parseEther(taskArgs.amount),
+      signers[0]
+    );
+
+    console.log(approval)
+})
 
 
 /// UTIL
