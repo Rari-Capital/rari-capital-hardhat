@@ -25,7 +25,9 @@ task('turbo-tribe-cf', "Will get TRIBE Collateral Factor in the turbo pool")
     .setAction( async (taskArgs, hre) => {
     const turboComptrollerContract = await createTurboComptroller(hre, taskArgs.id)
 
-    const market = await turboComptrollerContract.callStatic.markets("0x67E6C5c58eDE477bC790e8c050c2eb10fE3a835f")
+    const market = await turboComptrollerContract.callStatic.markets("0x1Fd6712E66263436877271B87d6eF20Ec6aE5f43")
+
+    console.log(market)
 
     console.log("Collateral Factor: ", formatUnits(market.collateralFactorMantissa))
 })
