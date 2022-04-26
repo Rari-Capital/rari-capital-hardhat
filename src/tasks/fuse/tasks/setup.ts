@@ -10,7 +10,7 @@ import { deployEmptyPool } from '../utils/fuse/deploy/deploy-empty-pool';
 import { deployMarket } from '../utils/fuse/deploy/deploy-market';
 import { configureEnv } from '../../../utils';
 
-task('setup', 'Sets up the environment expected for dApp tests', async (taskArgs, hre) => {
+task('setup-fuse', 'Sets up the environment expected for dApp tests', async (taskArgs, hre) => {
         // 1. Deploy fuse.
         const [deployer] = await hre.ethers.getSigners();
         const fuseDeployer = new FuseDeployment(deployer, hre)
@@ -144,6 +144,4 @@ task('setup', 'Sets up the environment expected for dApp tests', async (taskArgs
             {comptroller: "emptyPool", address: emptyPool},
             {comptroller: "configuredPool", address: poolAddress}
         ])
-
-        
 })
