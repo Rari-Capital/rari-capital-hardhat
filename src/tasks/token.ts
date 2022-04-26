@@ -56,7 +56,6 @@ const getTokenInfo = (token: string) => {
       default:
         break;
     }
-  }
 };
 
 const getContract = (
