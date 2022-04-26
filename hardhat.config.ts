@@ -6,18 +6,22 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-      version: "0.6.12"
+        version: "0.8.5"
       },
       // {
       // version: "0.7.0"
       // }
     ]
   },
+  paths:{
+    sources: "./src/contracts",
+    artifacts: "./src/artifacts"
+  },
   networks: {
     hardhat: {
       forking: {
         url: "https://eth-mainnet.alchemyapi.io/v2/2Mt-6brbJvTA4w9cpiDtnbTo6qOoySnN",
-        // blockNumber: 14167154
+        blockNumber: 14610872
       },
       allowUnlimitedContractSize: true,
       blockGasLimit: 300_000_000
