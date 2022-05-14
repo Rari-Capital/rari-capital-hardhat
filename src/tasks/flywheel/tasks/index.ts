@@ -1,1 +1,1 @@
-export * from './flywheel'
+export * from './fuse-flywheel-core'
