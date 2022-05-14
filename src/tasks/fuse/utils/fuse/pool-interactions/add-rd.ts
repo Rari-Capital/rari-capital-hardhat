@@ -4,38 +4,38 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 // Colors
 import colors from 'colors';
+import { Contract, Signer } from 'ethers';
 
 /**
- * @param fuse - An initiated fuse sdk instance.
- * @param hre - Hardhat runtime environment passed from task.
- * @param RdAddress - Rewards distributor's address.
+ * @param signer - An ethers signer.
+ * @param rdAddress - Rewards distributor's address.
  * @param comptrollerAddress - Address of comptroller that the rewards distributor will be added to.
- * @param comptrollerAdmin - Comptroller admin's address
+ * @param flywheel - Used for logging the correct success message.
  */
 export async function addRdToPool(
-    fuse: Fuse,
-    hre: HardhatRuntimeEnvironment,
+    signer: Signer,
     rdAddress: string,
     comptrollerAddress: string,
-    comptrollerAdmin: string,
+    flywheel?: boolean
 ) {
     // 1. Initiate comptroller contract.
     const functionInterface = [
         'function _addRewardsDistributor(address RdAddress)'
     ]
 
-    const comptrollerContract = new hre.ethers.Contract(
+    const comptrollerContract = new Contract(
         comptrollerAddress,
         functionInterface,
-        fuse.provider.getSigner(comptrollerAdmin)
+        signer
     )
 
     // 2. Add rd to comptroller.
     await comptrollerContract._addRewardsDistributor(rdAddress)
-    
+
+    const stringToShow = !flywheel ? "Rewards distributor was added to your pool" : "Flywheel was added to your pool"
     console.info(
         colors.green(
-            "Comptroller configuration successful. Rewards distributor was added to your pool"
+            `-- Comptroller configuration successful. ` + stringToShow
         )
     )
 }

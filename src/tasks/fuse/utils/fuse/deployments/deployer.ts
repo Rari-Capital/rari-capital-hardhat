@@ -99,7 +99,7 @@ export class FuseDeployment {
     }
 
     async deploy(setup?: boolean) {
-        const stringToShow = setup ? "(1/5) Initiating Fuse deployment." : "Initiating deployment."
+        const stringToShow = setup ? "(1/8) Initiating Fuse deployment." : "Initiating deployment."
          console.info(colors.yellow(stringToShow))
 
         const directory = await this.deployFuseDirectory();

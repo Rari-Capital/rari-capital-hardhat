@@ -5,12 +5,12 @@ import { task } from 'hardhat/config';
 import colors from 'colors';
 
 // Hardhat helpers
-import { FuseDeployment } from '../utils/fuse/deploy/deployer';
-import { deployEmptyPool } from '../utils/fuse/deploy/deploy-empty-pool';
-import { deployMarket } from '../utils/fuse/deploy/deploy-market';
-import { deployRdToPool } from '../utils/fuse/deploy/deploy-rewards-distributor-to-pool';
+import { FuseDeployment } from '../utils/fuse/deployments/deployer';
+import { deployEmptyPool } from '../utils/fuse/deployments/deploy-empty-pool';
+import { deployMarket } from '../utils/fuse/deployments/deploy-market';
+import { deployRdToPool } from '../utils/fuse/deployments/deploy-rewards-distributor-to-pool';
 import { configureEnv } from '../../../utils';
-import { deployUniTwapV2ToMpo } from '../utils/fuse/deploy/deploy-uni-twap-v2-to-mpo';
+import { deployUniTwapV2ToMpo } from '../utils/fuse/deployments/deploy-uni-twap-v2-to-mpo';
 
 task('deploy-fuse', 'Deploys a clean fuse instance', async (taskArgs, hre) => {
         const [deployer] = await hre.ethers.getSigners();
@@ -120,7 +120,7 @@ task('deploy-rd-to-pool')
                 try {
                         await deployRdToPool(
                                 fuse,
-                                hre,
+                                hre.ethers.provider.getSigner(),
                                 taskArgs.underlying,
                                 taskArgs.comptroller,
                                 address,

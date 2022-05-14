@@ -6,7 +6,8 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import colors from 'colors';
 
 // Function
-import { addRdToPool } from '../market-interactions/add-rd';
+import { addRdToPool } from '../pool-interactions/add-rd';
+import { Signer } from 'ethers';
 
 /**
  * @param fuse - An initiated fuse sdk instance.
@@ -18,19 +19,12 @@ import { addRdToPool } from '../market-interactions/add-rd';
  */
 export async function deployRdToPool(
     fuse: Fuse,
-    hre: HardhatRuntimeEnvironment,
+    signer: Signer,
     underlying: string,
     comptrollerAddress: string,
     comptrollerAdmin: string,
     address?: string
 ) {
-
-    console.info(
-        colors.yellow(
-            "Initiating rewards distributor deployment."
-        )
-    )
-
     // 1. Deploy Rd
     const deployedDistributor = await fuse.deployRewardsDistributor(
         underlying,
@@ -39,24 +33,12 @@ export async function deployRdToPool(
         }
     );
 
-    console.info(
-        colors.green(
-            "Deployment successful!"
-        )
-    )
-
-    console.table(
-        {contract: "Rewards distributor" , address: deployedDistributor.address}
-    )
-
-
     // // 2. Add to pool
-    // await addRdToPool(
-    //     fuse,
-    //     hre,
-    //     deployedDistributor.address,
-    //     comptrollerAddress,
-    //     comptrollerAdmin
-    // )
+    await addRdToPool(
+        signer,
+        deployedDistributor.address,
+        comptrollerAddress,
+    )
 
+    return deployedDistributor.address
 }
