@@ -5,12 +5,22 @@ import FuseFlywheelABI from '../abis/FuseFlywheelCore.json'
 import FuseFlywheelRewardsABI from '../abis/FuseFlywheelDynamicRewards.json'
 import { task } from 'hardhat/config';
 import { formatEther, getAddress } from 'ethers/lib/utils';
-import { createFlywheelLens } from '../utils/fuseContracts';
+import { createFlywheelLens, createFuseFlywheel } from '../utils/fuseContracts';
 import { filterOnlyObjectProperties } from '../utils/fuse/misc';
+import { addRdToPool } from '../utils/fuse/pool-interactions/add-rd';
 
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
 //////////////////////////////////////////////////////////////*/
+task('flywheel-add-to-comptroller')
+    .setAction(async (taskArgs, hre) => {
+        await addRdToPool(
+            hre.ethers.provider.getSigner(),
+            "0x071586BA1b380B00B793Cc336fe01106B0BFbE6D",
+            "0x8AEc6E3B2e9dc682E253888c04B2940C5C95fa69"
+        )
+    })
+
 task('flywheel-accrue', "Will accrue given flywheel on given market for the given address")
     .addParam('market', 'Market to accrue from')
     .addParam('address', 'User to accrue for')
@@ -106,7 +116,7 @@ task('flyewheel-add-market', "Will add market to given flywheel")
 })
 
 task('increase-time', "Will accelerate UNIX timestamp. Useful to simulate cycle completion for DynamicRewards module on a flywheel.")
-    .addParam('seconds', "Seconds to increase current UNIX timestamp with")
+    .addParam('seconds', "Seconds to increase current UNIX timestamp with, in milliseconds")
     .setAction(async (taskArgs, hre) => {
     const blockNumBefore = await hre.ethers.provider.getBlockNumber();
     const blockBefore = await hre.ethers.provider.getBlock(blockNumBefore);
@@ -211,12 +221,25 @@ task('flywheel-rewarded-token', "Will get rewarded token by the given flywheel."
     .setAction(async (taskArgs, hre) => {
     
     const flywheelContract = new Contract(
-        taskArgs.rewards,
+        taskArgs.flywheel,
         FuseFlywheelRewardsABI.abi,
         hre.ethers.provider
     )
 
     const rewardToken = await flywheelContract.rewardToken()
+    console.log({rewardToken})
+})
+
+task('flywheel-is-rewards-distributor', "Will return true if it is")
+    .addParam('flywheel', 'Flywheel attached to the market/strategy')
+    .setAction(async (taskArgs, hre) => {
+    
+    const flywheelContract = createFuseFlywheel(
+        hre.ethers.provider,
+        taskArgs.flywheel,
+    )
+
+    const rewardToken = await flywheelContract.isRewardsDistributor()
     console.log({rewardToken})
 })
 

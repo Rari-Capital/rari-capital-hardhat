@@ -17,29 +17,29 @@ task('supply', 'Will supply amount of token to market.')
     .addOptionalParam('collateralize', 'If true, the supplied amount will be enabled as collateral.')
     .addOptionalParam('user', 'Address of user that is supplying. Must be a hardhat address.')
     .setAction( async (taskArgs, hre) => {
-        const {address} = await configureEnv(hre)
+        // const {address} = await configureEnv(hre)
 
         const provider = hre.ethers.provider
         // 1. On an erc20 check for allowance and approve given market to use funds. 
-        if(taskArgs.underlying !== '0') {
-            await checkAllowanceAndApprove(
-                address,
-                taskArgs.market,
-                taskArgs.underlying,
-                taskArgs.amount,
-                provider
-            )
-        }
+        // if(taskArgs.underlying !== '0') {
+        //     await checkAllowanceAndApprove(
+        //         address,
+        //         taskArgs.market,
+        //         taskArgs.underlying,
+        //         taskArgs.amount,
+        //         provider
+        //     )
+        // }
 
         // 2. If true enable as collateral. i.e enter market.
-        if (taskArgs.enableAsCollateral) {
-            await collateral(
-                taskArgs.comptrollerAddress,
-                [taskArgs.marketAddress],
-                "enter",
-                provider
-            )
-        }
+        // if (taskArgs.enableAsCollateral) {
+        //     await collateral(
+        //         taskArgs.comptrollerAddress,
+        //         [taskArgs.marketAddress],
+        //         "enter",
+        //         provider
+        //     )
+        // }
 
         // 3. Supply to given market.
         await marketInteraction(
@@ -52,7 +52,7 @@ task('supply', 'Will supply amount of token to market.')
     }
 )
 
-// task('collateral', async (taskArgs, hre) => {
+// task('collateral', async (taskArgs, hre) => {z
 //     const {address, fuse, fuseDeployed} = await configureEnv(hre)
 //         if (!fuseDeployed) return
 
@@ -68,8 +68,9 @@ task('withdraw', 'Withdraws amount from given market')
     .addParam('market', 'Address of market to withdraw from.')
     .addParam('amount', 'Amount to withdraw from given market.')
     .addParam('token', 'Address of token to withdraw. 0 if its Eth')
+    .addParam('chain', 'Chain ID')
     .setAction(async (taskArgs, hre) => {
-    const {fuse, fuseDeployed, address} = await configureEnv(hre)
+    const {fuse, fuseDeployed, address} = await configureEnv(hre, taskArgs.chain)
     if (!fuseDeployed) return
 
     await marketInteraction(
@@ -86,8 +87,9 @@ task('borrow', 'Borrows amount from given market')
     .addParam('market', 'Address of market to withdraw from.')
     .addParam('amount', 'Amount to withdraw from given market.')
     .addParam('token', 'Address of token to withdraw. 0 if its Eth')
+    .addParam('chain', 'Chain ID')
     .setAction(async (taskArgs, hre) => {
-    const {fuse, fuseDeployed, address} = await configureEnv(hre)
+    const {fuse, fuseDeployed, address} = await configureEnv(hre, taskArgs.chain)
     if (!fuseDeployed) return
 
     await marketInteraction(
@@ -104,8 +106,9 @@ task('repay', 'Borrows amount from given market')
     .addParam('market', 'Address of market to withdraw from.')
     .addParam('amount', 'Amount to withdraw from given market.')
     .addParam('token', 'Address of token to withdraw. 0 if its Eth')
+    .addParam('chain', 'Chain ID')
     .setAction(async (taskArgs, hre) => {
-    const {fuse, fuseDeployed, address} = await configureEnv(hre)
+    const {fuse, fuseDeployed, address} = await configureEnv(hre, taskArgs.chain)
     if (!fuseDeployed) return
 
     await marketInteraction(

@@ -5,6 +5,7 @@ import CTokenABI from "../abis/artifacts/contracts/external/compound/CToken.sol/
 import RewardsDistributorABI from "../abis/RewardsDistributorABI.json"
 import FuseLensSecondary from '../abis/artifacts/contracts/FusePoolLensSecondary.sol/FusePoolLensSecondary.json'
 import FlywheelRouterABI from '../abis/FlywheelRouter.json'
+import FuseFlywheel from '../abis/FuseFlywheelCore.json'
 
 export const createComptroller = (
     provider: BaseProvider,
@@ -60,6 +61,17 @@ export const createComptroller = (
     return new Contract(
       "0xcd9704f874d69f0cb2ddfd04ff8e5c88f3caf02e",
       FlywheelRouterABI,
+      provider
+    )
+  }
+
+  export const createFuseFlywheel = (
+    provider: BaseProvider,
+    flywheelAddress: string
+  ) => {
+    return new Contract(
+      flywheelAddress,
+      FuseFlywheel.abi,
       provider
     )
   }
