@@ -1,8 +1,15 @@
 
 // Types
-import { Contract, Signer } from "ethers";
+import { Contract, ContractFactory, Signer } from "ethers";
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
+
+/// Artifacts
+import FuseDirectory from '../../../abis/artifacts/contracts/FusePoolDirectory.sol/FusePoolDirectory.json'
+import FuseSafeLiquidator from '../../../abis/artifacts/contracts/FuseSafeLiquidator.sol/FuseSafeLiquidator.json'
+import FuseFeeDistributor from '../../../abis/artifacts/contracts/FuseFeeDistributor.sol/FuseFeeDistributor.json'
+import FuseLens from '../../../abis/artifacts/contracts/FusePoolLens.sol/FusePoolLens.json'
+import FuseSecondaryLens from '../../../abis/artifacts/contracts/FusePoolLensSecondary.sol/FusePoolLensSecondary.json'
 
 // Colors
 import colors from 'colors';
@@ -22,18 +29,23 @@ export class FuseDeployment {
     }
 
     async deployFuseDirectory() {
-        const FusePoolDirectoryContractFactory = await this.hre.ethers.getContractFactory(
-            "FusePoolDirectory"
-        );
+        const FusePoolDirectoryContractFactory = new ContractFactory(
+            FuseDirectory.abi,
+            FuseDirectory.bytecode,
+            this.hre.ethers.provider.getSigner()
+        )
+
         const FusePoolDirectory = await FusePoolDirectoryContractFactory.deploy();
         this.FuseDirectoryAddress = FusePoolDirectory.address;
         return this.FuseDirectoryAddress;
     }
 
     async deploySafeLiquidator() {
-        const SafeLiquidatorContractFactory = await this.hre.ethers.getContractFactory(
-            "FuseSafeLiquidator"
-        );
+        const SafeLiquidatorContractFactory = new ContractFactory(
+            FuseSafeLiquidator.abi,
+            FuseSafeLiquidator.bytecode,
+            this.hre.ethers.provider.getSigner()
+        )
 
         const SafeLiquidator = await SafeLiquidatorContractFactory.deploy();
         this.SafeLiquidatorAddress = SafeLiquidator.address;
@@ -41,9 +53,11 @@ export class FuseDeployment {
     }
 
     async deployFeeDistributor() {
-        const FeeDistributorContractFactory = await this.hre.ethers.getContractFactory(
-            "FuseFeeDistributor"
-        );
+        const FeeDistributorContractFactory = new ContractFactory(
+            FuseFeeDistributor.abi,
+            FuseFeeDistributor.bytecode,
+            this.hre.ethers.provider.getSigner()
+        )
 
         const FeeDistributor = await FeeDistributorContractFactory.deploy()
         this.FeeDistributorAddress = FeeDistributor.address
@@ -51,13 +65,20 @@ export class FuseDeployment {
     }
 
     async deployLens() {
-        const Lens = await (
-            await this.hre.ethers.getContractFactory("FusePoolLens")
-        ).deploy();
+        const LensFactory = new ContractFactory(
+            FuseLens.abi,
+            FuseLens.bytecode,
+            this.hre.ethers.provider.getSigner()
+        )
 
-        const LensSecondary = await (
-            await this.hre.ethers.getContractFactory("FusePoolLensSecondary")
-        ).deploy();
+        const SecondaryLensFactory = new ContractFactory(
+            FuseSecondaryLens.abi,
+            FuseSecondaryLens.bytecode,
+            this.hre.ethers.provider.getSigner()
+        )   
+        
+        const Lens = await LensFactory.deploy()
+        const LensSecondary = await SecondaryLensFactory.deploy()
 
         this.LensAddress = Lens.address;
         this.LensSecondaryAddress = LensSecondary.address

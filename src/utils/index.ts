@@ -8,7 +8,8 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import colors from 'colors';
 
 export const configureEnv = async (
-    hre: HardhatRuntimeEnvironment
+    hre: HardhatRuntimeEnvironment,
+    chainId: string
 ) => {
     // User address. 
     //  - Using hardhat default addresses.
@@ -20,7 +21,7 @@ export const configureEnv = async (
     //      block, the addresses will not match configuration, and the sdk will not work.
     //      This happens because one of the salts used to create the contract addresses is the block number.
     const provider = new hre.ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/')
-    const fuse = new Fuse(provider, 31337);
+    const fuse = new Fuse(provider, parseInt(chainId));
 
     // 0. Check fuse was deployed.
     const fuseDeployed = await check(fuse)

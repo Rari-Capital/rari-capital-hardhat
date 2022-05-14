@@ -12,7 +12,6 @@ import { deployRdToPool } from '../utils/fuse/deploy/deploy-rewards-distributor-
 import { configureEnv } from '../../../utils';
 import { deployUniTwapV2ToMpo } from '../utils/fuse/deploy/deploy-uni-twap-v2-to-mpo';
 
-
 task('deploy-fuse', 'Deploys a clean fuse instance', async (taskArgs, hre) => {
         const [deployer] = await hre.ethers.getSigners();
         const fuse = new FuseDeployment(deployer, hre)
@@ -20,8 +19,10 @@ task('deploy-fuse', 'Deploys a clean fuse instance', async (taskArgs, hre) => {
         await fuse.deploy();
 })
 
-task('deploy-pool', 'Deploys an empty pool', async (taskArgs, hre) => {
-        const { fuse, address, fuseDeployed} = await configureEnv(hre)
+task('deploy-pool', 'Deploys an empty pool')
+        .addParam('chain', 'Chain ID. i.e 1 for mainnet.')
+        .setAction(async (taskArgs, hre) => {
+        const { fuse, address, fuseDeployed} = await configureEnv(hre, taskArgs.chain)
         if (!fuseDeployed) return
 
         // 1. Deploy pool.
@@ -48,11 +49,12 @@ task('deploy-pool', 'Deploys an empty pool', async (taskArgs, hre) => {
 task('deploy-market', 'Deploys an asset to the given comptroller.')
         .addParam('comptroller', "Pool's comptroller address.")
         .addParam('underlying', "Underlying asset's address for the cToken. e.g DAI address")
+        .addParam('chain', 'Chain ID')
         .addOptionalParam('cfactor', "CollateralFactor. Will determine loan to value ratio. Its a percentage so it should be between 0 - 1.")
         .addOptionalParam('rfactor', "ReserveFactor. Will determine ratio of fees to go to the reserve. Its a percentage so it should be between 0 - 1.")
         .addOptionalParam('adminfee', "Will determine percentage admin fee. Its a percentage so it should be between 0 - 1.")
         .setAction( async (taskArgs, hre) => {
-        const { fuse, address, fuseDeployed } = await configureEnv(hre)
+        const { fuse, address, fuseDeployed } = await configureEnv(hre, taskArgs.chain)
         if (!fuseDeployed) return
         
         // 1. Deploy market.
@@ -100,7 +102,7 @@ task('deploy-market', 'Deploys an asset to the given comptroller.')
 
         console.table(
                 {
-                  contract: "cToken delegate/Market", 
+                  contract: "cToken/Market", 
                   address: events.slice(-1)[0].args[0]
                 }
         )
@@ -109,9 +111,10 @@ task('deploy-market', 'Deploys an asset to the given comptroller.')
 task('deploy-rd-to-pool')
         .addParam('underlying', "Address of asset that will be distributed. e.g. DAI address ")
         .addParam('comptroller', "Comptroller address to which the rewards distributor will be added to.")
+        .addParam('chain', 'Chain ID')
         .addOptionalParam('rdDeployer', "If present this address will be used to deploy the rewards")
         .setAction(async (taskArgs, hre) => {
-                const {fuse, address, fuseDeployed} = await configureEnv(hre)
+                const {fuse, address, fuseDeployed} = await configureEnv(hre, taskArgs.chain)
                 if (!fuseDeployed) return
 
                 try {
@@ -130,8 +133,10 @@ task('deploy-rd-to-pool')
         }
 )
 
-task('deploy-unitwap-v2', async(taskArgs, hre) => {
-        const {fuse, address, provider, fuseDeployed} = await configureEnv(hre)
+task('deploy-unitwap-v2')
+        .addParam('chain', 'Chain ID')
+        .setAction( async(taskArgs, hre) => {
+        const {fuse, address, provider, fuseDeployed} = await configureEnv(hre, taskArgs.chain)
         if (!fuseDeployed) return
 
         await deployUniTwapV2ToMpo(
@@ -141,4 +146,5 @@ task('deploy-unitwap-v2', async(taskArgs, hre) => {
                 address
         )
 })
+
 

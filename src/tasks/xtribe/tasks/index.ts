@@ -61,6 +61,8 @@ task('xtribe-setup', "Will get weight of given gauge")
                 172800 //Increment freeze window 2 days
             )
 
+            console.log({xTribe})
+
             const Arguments = {
                 ERC20: TRIBE,
                 OWNER: TurboAddresses[1].FEI_DAO_TIMELOCK,
@@ -86,11 +88,15 @@ task('xtribe-setup', "Will get weight of given gauge")
 
         try {
 
+            console.log({authority, ts: xTribe.setMaxDelegates.selector})
+
             await authority.setRoleCapability(
                 1,
-                xTribe.setMaxDelegates.selector,
+                xTribe.setMaxDelegates,
                 true
             );
+
+            console.log("one")
 
             await authority.setRoleCapability(
                 1,
@@ -98,17 +104,23 @@ task('xtribe-setup', "Will get weight of given gauge")
                 true
             );
 
+            console.log("two")
+
             await authority.setRoleCapability(
                 1, 
                 xTribe.addGauge.selector, 
                 true
             );
 
+            console.log("three")
+
             await authority.setUserRole(
                 "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 
                 1, 
                 true
             );
+
+            console.log("four")
 
             console.log(
                 colors.green("\tConfiguration successful.")

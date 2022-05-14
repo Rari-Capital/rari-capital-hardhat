@@ -8,6 +8,8 @@ import { impersonateAccount } from '../utils/impersonate';
 import { createERC20 } from './turbo/utils/turboContracts';
 import { BigNumber, BigNumberish, constants, Contract } from 'ethers';
 import { signERC2612Permit } from 'eth-permit';
+import { Console } from "console";
+import { JsonRpcSigner } from "@ethersproject/providers";
 
 const getTokenInfo = (token: string) => {
     switch (token) {
@@ -60,14 +62,12 @@ const getTokenInfo = (token: string) => {
 
 const getContract = (
   address: string,
-  holderToImpersonate: string,
-  provider: any,
-  hre: any
+  signer: JsonRpcSigner
 ) => {
-  return new hre.ethers.Contract(
+  return new Contract(
     address,
     abi,
-    provider.getSigner(holderToImpersonate)
+    signer
   );
 };
 
@@ -97,17 +97,18 @@ task(
       tokenInfo.holderToImpersonate,
     ]);
 
+    const signer = provider.getSigner(tokenInfo.holderToImpersonate)
+
     const daiContract = getContract(
       tokenInfo.address,
-      tokenInfo.holderToImpersonate,
-      provider,
-      hre
+      signer
     );
+
+    console.log(daiContract.signer)
     const balanceOfSender = await daiContract.balanceOf(
-      tokenInfo.holderToImpersonate
+      "0x47ac0fb4f2d84898e4d9e7b4dab3c24507a6d503"
     );
-    console.log(balanceOfSender);
-    console.log("hey");
+
     const balanceBefore = await daiContract.balanceOf(recipient);
 
     const parsedAmount =
