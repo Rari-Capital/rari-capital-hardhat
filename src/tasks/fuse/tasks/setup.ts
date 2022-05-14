@@ -27,7 +27,7 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
         // 2. Deploy empty pool.
         let emptyPool
         try {
-            console.log(colors.yellow("(2/8) Deploying empty pool."))
+            console.log(colors.yellow("\n(2/8) Deploying empty pool."))
             emptyPool = await deployEmptyPool(fuse, hre, address);
             console.log(colors.green("-- Empty pool deployed successfully!"))
         } catch (e) {
@@ -39,7 +39,7 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
         // 3. Deploy pool 2.
         let poolAddress
         try {
-            console.log(colors.yellow("(3/8) Deploying configuredPool"))
+            console.log(colors.yellow("\n(3/8) Deploying configuredPool"))
             poolAddress = await deployEmptyPool(fuse, hre, address);
             console.log(colors.green("-- Deployed pool successfully!"))
         } catch (e) {
@@ -50,7 +50,7 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
         
         // 4. Deploy dai market to pool2.
         try {
-            console.log(colors.yellow("(4/8) Deploying DAI market to configuredPool"))
+            console.log(colors.yellow("\n(4/8) Deploying DAI market to configuredPool"))
             await deployMarket(
                     fuse,
                     poolAddress, 
@@ -97,7 +97,7 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
 
         // 5. Deploy eth market to pool2.
         try {
-                console.log(colors.yellow("(5/8) Deploying ETH market to configuredPool"))
+                console.log(colors.yellow("\n(5/8) Deploying ETH market to configuredPool"))
                 await deployMarket(
                         fuse,
                         poolAddress, 
@@ -144,7 +144,7 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
 
         // 6. Deploy Rewards Distributor
         try {
-                console.log(colors.yellow("(6/8) Deploying DAI rewards for the ETH makrket"))
+                console.log(colors.yellow("\n(6/8) Deploying DAI rewards for the ETH makrket"))
                 const deployedDistributor = await deployRdToPool(
                         fuse,
                         hre.ethers.provider.getSigner(),
@@ -161,7 +161,7 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
         }
 
         try {
-                console.log(colors.yellow("(7/8) Deploying a TRIBE Flywheel to the pool"))
+                console.log(colors.yellow("\n(7/8) Deploying a TRIBE Flywheel to the pool"))
                 const deployedFlywheel = await deployFlywheelToPool(
                         hre.ethers.provider.getSigner(),
                         TRIBE,
@@ -183,7 +183,7 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
         }
 
         try {
-                console.log(colors.yellow("(8/8) Deploying a FEI Flywheel to the pool"))
+                console.log(colors.yellow("\n(8/8) Deploying a FEI Flywheel to the pool"))
                 const deployedFlywheel = await deployFlywheelToPool(
                         hre.ethers.provider.getSigner(),
                         "0x956F47F50A910163D8BF957Cf5846D573E7f87CA",
@@ -202,14 +202,14 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
                 console.error(e)
         }
         
-        console.log(colors.green("============ Test environment configured successfully! These are your pools: ============"))
+        console.log(colors.green("\n============ Test environment configured successfully! These are your pools: ============"))
         console.table([
                 {comptroller: "emptyPool", address: emptyPool},
                 {comptroller: "configuredPool", address: poolAddress}
         ])
 
 
-        console.log(colors.cyan("============ To test/fund/edit rewards distributors and flywheels use their respective tasks. ============"))
+        console.log(colors.cyan("============ To test/fund/configure rewards distributors and flywheels use their respective tasks. ============"))
 
         try {
                 await hre.ethers.provider.send("evm_setIntervalMining", [5000]);
