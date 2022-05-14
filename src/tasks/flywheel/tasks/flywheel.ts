@@ -5,9 +5,9 @@ import FuseFlywheelABI from '../abis/FuseFlywheelCore.json'
 import FuseFlywheelRewardsABI from '../abis/FuseFlywheelDynamicRewards.json'
 import { task } from 'hardhat/config';
 import { formatEther, getAddress } from 'ethers/lib/utils';
-import { createFlywheelLens, createFuseFlywheel } from '../utils/fuseContracts';
-import { filterOnlyObjectProperties } from '../utils/fuse/misc';
-import { addRdToPool } from '../utils/fuse/pool-interactions/add-rd';
+import { createFlywheelLens, createFuseFlywheelCore } from '../utils/contracts';
+import { filterOnlyObjectProperties } from '../../fuse/utils/fuse/misc';
+import { addRdToPool } from '../../fuse/utils/fuse/pool-interactions/add-rd';
 
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
@@ -95,7 +95,7 @@ task('flywheel-set-rewards-module', "Will set rewards module to the given addres
     console.log({receipt})
 })
 
-task('flyewheel-add-market', "Will add market to given flywheel")
+task('flywheel-add-market', "Will add market to given flywheel")
     .addParam('market', 'Market to add')
     .addParam('flywheel', 'Flywheel to add market to')
     .setAction(async (taskArgs, hre) => {
@@ -107,12 +107,9 @@ task('flyewheel-add-market', "Will add market to given flywheel")
         signer
     )
 
-    console.log('hello  ')
-
     const receipt = await flywheelContract.addMarketForRewards(getAddress(taskArgs.market))
 
     console.log({receipt})
-
 })
 
 task('increase-time', "Will accelerate UNIX timestamp. Useful to simulate cycle completion for DynamicRewards module on a flywheel.")
@@ -154,6 +151,22 @@ task('flywheel-accrued', "Will return accrued rewards for the given user")
 
     const accrued = await flywheelContract.rewardsAccrued(taskArgs.user)
     console.log({accrued: formatEther(accrued)})
+})
+
+task('flywheel-get-all-strategies', "Will return accrued rewards for the given user")
+    .addParam('flywheel', 'Flywheel attached to the market')
+    .setAction(async (taskArgs, hre) => {
+    
+    const flywheelContract = new Contract(
+        taskArgs.flywheel,
+        FlywheelABI.abi,
+        hre.ethers.provider
+    )
+
+    console.log({flywheelContract})
+
+    const strategies = await flywheelContract.callStatic.getAllStrategies()
+    console.log(strategies)
 })
 
 task('flywheel-strategy-state', "Will get the strategy's state on the given flywheels.")
@@ -234,7 +247,7 @@ task('flywheel-is-rewards-distributor', "Will return true if it is")
     .addParam('flywheel', 'Flywheel attached to the market/strategy')
     .setAction(async (taskArgs, hre) => {
     
-    const flywheelContract = createFuseFlywheel(
+    const flywheelContract = createFuseFlywheelCore(
         hre.ethers.provider,
         taskArgs.flywheel,
     )
