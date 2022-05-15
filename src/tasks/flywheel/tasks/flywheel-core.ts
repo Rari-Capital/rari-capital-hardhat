@@ -23,18 +23,6 @@ task('flywheel-accrue', "Will accrue given flywheel on given market for the give
     console.log({receipt})
 })
 
-task('flywheel-set-owner', "Will set owner of the given flywheel")
-    .addParam('owner', 'Address of the new owner')
-    .addParam('flywheel', 'Flywheel attached to the market')
-    .setAction(async (taskArgs, hre) => {
-    const signer = hre.ethers.provider.getSigner()
-    
-    const flywheelContract = (createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)).connect(signer)
-    const receipt = await flywheelContract.setOwner(getAddress(taskArgs.owner))
-
-    console.log({receipt})
-})
-
 task('flywheel-claim', "Will claim rewards on given flywheel for the given address")
     .addParam('address', 'Address to accrue rewards for')
     .addParam('flywheel', 'Flywheel attached to the market')
@@ -48,6 +36,18 @@ task('flywheel-claim', "Will claim rewards on given flywheel for the given addre
     console.log({receipt})
 })
 
+task('flywheel-add-strategy-for-rewards', "Will claim rewards on given flywheel for the given address")
+    .addParam('strategy', 'Address of strategy')
+    .addParam('flywheel', 'Flywheel attached to the market')
+    .setAction(async (taskArgs, hre) => {
+    const signer = await hre.ethers.getSigner('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
+    
+    const flywheelContract = (createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)).connect(signer)
+
+    const receipt = await flywheelContract.addStrategyForRewards(taskArgs.address)
+    console.log({receipt})
+})
+
 task('flywheel-set-rewards-module', "Will set rewards module to the given address.")
     .addParam('rewards', 'Address of the new rewards module')
     .addParam('flywheel', 'Flywheel to set rewards module for')
@@ -57,6 +57,31 @@ task('flywheel-set-rewards-module', "Will set rewards module to the given addres
     const flywheelContract = (createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)).connect(signer)
 
     const receipt = await flywheelContract.setFlywheelRewards(getAddress(taskArgs.rewards))
+
+    console.log({receipt})
+})
+
+task('flywheel-set-booster-module', "Will set rewards module to the given address.")
+    .addParam('booster', 'Address for the booster module')
+    .addParam('flywheel', 'Flywheel to set rewards module for')
+    .setAction(async (taskArgs, hre) => {
+    const signer = await hre.ethers.getSigner('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
+    
+    const flywheelContract = (createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)).connect(signer)
+
+    const receipt = await flywheelContract.setBooster(getAddress(taskArgs.booster))
+
+    console.log({receipt})
+})
+
+task('flywheel-set-owner', "Will set owner of the given flywheel")
+    .addParam('owner', 'Address of the new owner')
+    .addParam('flywheel', 'Flywheel attached to the market')
+    .setAction(async (taskArgs, hre) => {
+    const signer = hre.ethers.provider.getSigner()
+    
+    const flywheelContract = (createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)).connect(signer)
+    const receipt = await flywheelContract.setOwner(getAddress(taskArgs.owner))
 
     console.log({receipt})
 })
@@ -102,6 +127,16 @@ task('flywheel-strategy-state', "Will get the strategy's state on the given flyw
     const receipt = await flywheelContract.strategyState(taskArgs.strategy)
     console.log({receipt})
 })
+
+task('flywheel-user-index')
+    .addParam('strategy', 'Strategy to query.')
+    .addParam('user', 'User to get index for.')
+    .setAction(async (taskArgs, hre) => {
+        const flywheelContract = createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)
+
+        const userIndex = flywheelContract.userIndex(taskArgs.strategy, taskArgs.user)
+        console.log({userIndex})
+    })
 
 task('flywheel-get-owner', "Will get owner of the given flywheel.")
     .addParam('flywheel', 'Flywheel attached to the market/strategy')
