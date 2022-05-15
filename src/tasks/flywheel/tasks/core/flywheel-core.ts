@@ -44,7 +44,7 @@ task('flywheel-add-strategy-for-rewards', "Will claim rewards on given flywheel 
     
     const flywheelContract = (createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)).connect(signer)
 
-    const receipt = await flywheelContract.addStrategyForRewards(taskArgs.address)
+    const receipt = await flywheelContract.addStrategyForRewards(taskArgs.strategy)
     console.log({receipt})
 })
 
@@ -104,11 +104,7 @@ task('flywheel-accrued', "Will return accrued rewards for the given user")
 task('flywheel-get-all-strategies', "Will return accrued rewards for the given user")
     .addParam('flywheel', 'Flywheel attached to the market')
     .setAction(async (taskArgs, hre) => {
-    const signer = await hre.ethers.getSigner('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
-    
-    const flywheelContract = (createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)).connect(signer)
-
-    console.log({flywheelContract})
+    const flywheelContract = createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)
 
     const strategies = await flywheelContract.callStatic.getAllStrategies()
     console.log(strategies)
@@ -121,8 +117,6 @@ task('flywheel-strategy-state', "Will get the strategy's state on the given flyw
     const signer = await hre.ethers.getSigner('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
     
     const flywheelContract = (createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)).connect(signer)
-
-    console.log(flywheelContract)
 
     const receipt = await flywheelContract.strategyState(taskArgs.strategy)
     console.log({receipt})

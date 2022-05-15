@@ -21,7 +21,7 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
         await fuseDeployer.deploy(true);
 
         // Configure
-        const {fuse, address} = await configureEnv(hre, '1')
+        const {fuse, address} = await configureEnv(hre, '31337')
 
         
         // 2. Deploy empty pool.
