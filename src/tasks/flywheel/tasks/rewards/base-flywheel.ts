@@ -15,6 +15,9 @@ const versions: any = {
 //////////////////////////////////////////////////////////////*/
 task('flywheel-rewards-deploy', "Will deploy a new rewards module contract.")
     .addParam('ver', 'Rewards module version. ie static, dynamic.')
+    .addParam('core', 'Flywheel core contract to which this rewards module will be attached to.')
+    .addParam('owner', 'Authority contract owner')
+    .addParam('authority', 'Authority module contract address')
     .setAction(async (taskArgs, hre) => {
     const signer = await hre.ethers.getSigner('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
 
@@ -24,7 +27,11 @@ task('flywheel-rewards-deploy', "Will deploy a new rewards module contract.")
         signer
     )
 
-    const receipt = await flywheelContract.deploy()
+    const receipt = await flywheelContract.deploy(
+        taskArgs.core,
+        taskArgs.owner,
+        taskArgs.authority
+    )
 
     console.log({receipt})
 })
@@ -48,7 +55,7 @@ task('flywheel-rewards-core', "Will return the rewards module core flywheel")
     console.log({receipt})
 })
 
-task('flywheel-rewarded-token', "Will get rewarded token by the given flywheel rewards module.")
+task('flywheel-rewards-token', "Will get rewarded token by the given flywheel rewards module.")
     .addParam('rewards', 'Flywheel attached to the market/strategy')
     .setAction(async (taskArgs, hre) => {
     
