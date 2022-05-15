@@ -1,14 +1,14 @@
 // Types
-import { Fuse } from '../../cjs';
+import { Fuse } from '../../fuse/utils/cjs';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 // Colors
 import colors from 'colors';
 
-import FuseFlywheel from '../../../abis/FuseFlywheelCore.json'
+import FuseFlywheel from '../abis/FuseFlywheelCore.json'
 
 import { ContractFactory, Signer } from 'ethers';
-import { addRdToPool } from '../pool-interactions/add-rd';
+import { addRdToPool } from '../../fuse/utils/fuse/pool-interactions/add-rd';
 
 /**
  * @param signer - An ethers signer.

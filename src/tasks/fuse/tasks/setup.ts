@@ -10,8 +10,8 @@ import { deployEmptyPool } from '../utils/fuse/deployments/deploy-empty-pool';
 import { deployMarket } from '../utils/fuse/deployments/deploy-market';
 import { configureEnv } from '../../../utils';
 import { deployRdToPool } from '../utils/fuse/deployments/deploy-rewards-distributor-to-pool';
-import { deployFlywheelToPool } from '../utils/fuse/deployments/deploy-flywheel';
 import { EMPTY_ADDRESS, TRIBE } from '../../../tasks/turbo/utils/constants';
+import { deployFlywheelToPool } from '../../flywheel/utils/deploy-flywheel';
 
 task('setup-fuse', 'Sets up the environment expected for dApp tests', async (taskArgs, hre) => {
         // 1. Deploy fuse.
@@ -21,7 +21,7 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
         await fuseDeployer.deploy(true);
 
         // Configure
-        const {fuse, address} = await configureEnv(hre, '1')
+        const {fuse, address} = await configureEnv(hre, '31337')
 
         
         // 2. Deploy empty pool.

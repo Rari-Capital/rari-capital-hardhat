@@ -1,4 +1,3 @@
-export * from './flywheel'
 export * from './market-interactions'
 export * from './deploy'
 export * from './comptroller'
