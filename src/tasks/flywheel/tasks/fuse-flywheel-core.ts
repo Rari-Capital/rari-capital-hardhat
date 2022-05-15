@@ -1,13 +1,10 @@
 import '@nomiclabs/hardhat-ethers';
 import {  Contract } from 'ethers';
-import FlywheelABI from '../abis/FlywheelCore.json'
 import FuseFlywheelABI from '../abis/FuseFlywheelCore.json'
 import FuseFlywheelRewardsABI from '../abis/FuseFlywheelDynamicRewards.json'
 import { task } from 'hardhat/config';
-import { formatEther, getAddress } from 'ethers/lib/utils';
-import { createFlywheelLens, createFuseFlywheelCore } from '../utils/contracts';
-import { filterOnlyObjectProperties } from '../../fuse/utils/fuse/misc';
-import { addRdToPool } from '../../fuse/utils/fuse/pool-interactions/add-rd';
+import { getAddress } from 'ethers/lib/utils';
+import { createFuseFlywheelCore } from '../utils/contracts';
 
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
@@ -54,34 +51,6 @@ task('increase-time', "Will accelerate UNIX timestamp. Useful to simulate cycle 
 /*///////////////////////////////////////////////////////////////
                         STATIC CALLS
 //////////////////////////////////////////////////////////////*/
-task('rewards-cycle-length', "Will get cycle lenght of the given flywheel.")
-    .addParam('rewards', 'Flywheel attached to the market/strategy')
-    .setAction(async (taskArgs, hre) => {
-    
-    const flywheelContract = new Contract(
-        taskArgs.rewards,
-        FuseFlywheelRewardsABI.abi,
-        hre.ethers.provider
-    )
-
-    const rewardsCycleLength = await flywheelContract.rewardsCycleLength()
-    console.log({rewardsCycleLength})
-})
-
-task('flywheel-rewarded-token', "Will get rewarded token by the given flywheel.")
-    .addParam('flywheel', 'Flywheel attached to the market/strategy')
-    .setAction(async (taskArgs, hre) => {
-    
-    const flywheelContract = new Contract(
-        taskArgs.flywheel,
-        FuseFlywheelRewardsABI.abi,
-        hre.ethers.provider
-    )
-
-    const rewardToken = await flywheelContract.rewardToken()
-    console.log({rewardToken})
-})
-
 task('flywheel-is-rewards-distributor', "Will return true if it is")
     .addParam('flywheel', 'Flywheel attached to the market/strategy')
     .setAction(async (taskArgs, hre) => {
@@ -94,54 +63,3 @@ task('flywheel-is-rewards-distributor', "Will return true if it is")
     const rewardToken = await flywheelContract.isRewardsDistributor()
     console.log({rewardToken})
 })
-
-task('flywheel-router-get-market-rewards-info')
-    .addParam('comptroller', 'Comptroller to get info for')
-    .setAction(async (taskArgs, hre) => {
-        const flywheelRouterContract = createFlywheelLens(hre.ethers.provider)
-        console.log("PRE")
-        const rewardsInfo = await flywheelRouterContract.callStatic.getMarketRewardsInfo(taskArgs.comptroller)
-
-        console.log({rewardsInfo})
-        let cTokenPluginRewardsMap: any = {};
-        let flywheelCTokensMap: any = {};
-        let uniqueRewardTokens: Set<string> = new Set<string>();
-
-        if (rewardsInfo) {
-            rewardsInfo.forEach((marketRewardInfo: any) => {
-                const { market, rewardsInfo } = marketRewardInfo;
-                console.log({market, rewardsInfo})
-
-                rewardsInfo.forEach((flywheelData: any) => {
-                    const { flywheel, formattedAPR, rewardToken } =
-                        filterOnlyObjectProperties(flywheelData);
-                    console.log({flywheel, formattedAPR, rewardToken})
-
-                    const obj = {
-                        rewardToken,
-                        formattedAPR: parseFloat(formattedAPR.toString()) / 1e16,
-                      };
-
-                    if (!formattedAPR.isZero()) {
-                            uniqueRewardTokens.add(rewardToken);
-                            // flywheelCTokensMap[flywheel] = [...flywheelCTokensMap[flywheel], market]
-                            cTokenPluginRewardsMap[market] = {
-                                ...cTokenPluginRewardsMap[market],
-                                [flywheel]: obj,
-                        };
-                    }
-                })
-            })
-        }
-        const rewardTokens = Array.from(uniqueRewardTokens);
-
-        const _result: any = {
-            incentives: cTokenPluginRewardsMap,
-            hasIncentives: !!rewardTokens.length,
-            rewardTokens,
-            rewardsDistributorCtokens: flywheelCTokensMap,
-        };
-
-        console.log({_result, incentives: _result.incentives})
-
-    })
