@@ -1,11 +1,36 @@
 import '@nomiclabs/hardhat-ethers';
-import {  Contract } from 'ethers';
+import {  Contract, ContractFactory } from 'ethers';
 import  BaseFlywheelRewards from '../../abis/BaseFlywheelRewards.json'
 import { task } from 'hardhat/config';
-import { getAddress } from 'ethers/lib/utils';
+import FuseFlywheelStatic from '../../abis/FlywheelStaticRewards.json'
+import FuseFlywheelDynamic from '../../abis/FuseFlywheelDynamicRewards.json'
+
+const versions: any = {
+    static: FuseFlywheelStatic,
+    dynamic: FuseFlywheelDynamic
+}
 
 /*///////////////////////////////////////////////////////////////
-                        METHOD CALLS
+                        DEPLOYMENT
+//////////////////////////////////////////////////////////////*/
+task('flywheel-rewards-deploy', "Will deploy a new rewards module contract.")
+    .addParam('ver', 'Rewards module version. ie static, dynamic.')
+    .setAction(async (taskArgs, hre) => {
+    const signer = await hre.ethers.getSigner('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
+
+    const flywheelContract = new ContractFactory(
+        versions[taskArgs.ver].abi,
+        versions[taskArgs.ver].bytecode,
+        signer
+    )
+
+    const receipt = await flywheelContract.deploy()
+
+    console.log({receipt})
+})
+
+/*///////////////////////////////////////////////////////////////
+                        STATIC CALLS
 //////////////////////////////////////////////////////////////*/
 task('flywheel-rewards-core', "Will return the rewards module core flywheel")
     .addParam('rewards', 'Rewards module address')
