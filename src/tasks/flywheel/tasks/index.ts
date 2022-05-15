@@ -1,3 +1,2 @@
-export * from './fuse-flywheel-core'
-export * from './flywheel-core'
+export * from './core'
 export * from './rewards'

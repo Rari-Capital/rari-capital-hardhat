@@ -1,9 +1,9 @@
 import '@nomiclabs/hardhat-ethers';
 import {  Contract } from 'ethers';
-import FlywheelABI from '../abis/FlywheelCore.json'
+import FlywheelABI from '../../abis/FlywheelCore.json'
 import { task } from 'hardhat/config';
 import {  formatEther, getAddress } from 'ethers/lib/utils';
-import { createFlywheelCore } from '../utils/contracts';
+import { createFlywheelCore } from '../../utils/contracts';
 
 
 /*///////////////////////////////////////////////////////////////

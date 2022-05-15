@@ -1,10 +1,9 @@
 import '@nomiclabs/hardhat-ethers';
 import {  Contract } from 'ethers';
-import FuseFlywheelABI from '../abis/FuseFlywheelCore.json'
-import FuseFlywheelRewardsABI from '../abis/FuseFlywheelDynamicRewards.json'
+import FuseFlywheelABI from '../../abis/FuseFlywheelCore.json'
 import { task } from 'hardhat/config';
 import { getAddress } from 'ethers/lib/utils';
-import { createFuseFlywheelCore } from '../utils/contracts';
+import { createFuseFlywheelCore } from '../../utils/contracts';
 
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
