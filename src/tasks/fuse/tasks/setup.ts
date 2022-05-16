@@ -142,23 +142,23 @@ task('setup-fuse', 'Sets up the environment expected for dApp tests', async (tas
                 return
         }
 
-        // 6. Deploy Rewards Distributor
-        try {
-                console.log(colors.yellow("\n(6/8) Deploying DAI rewards for the ETH makrket"))
-                const deployedDistributor = await deployRdToPool(
-                        fuse,
-                        hre.ethers.provider.getSigner(),
-                        "0x6b175474e89094c44da98b954eedeac495271d0f",
-                        poolAddress,
-                        address,
-                        undefined
-                )
-                console.table(
-                        {contract: "Rewards distributor" , address: deployedDistributor}
-                    )
-        } catch (e) {
-                console.error(e)
-        }
+        // // 6. Deploy Rewards Distributor
+        // try {
+        //         console.log(colors.yellow("\n(6/8) Deploying DAI rewards for the ETH makrket"))
+        //         const deployedDistributor = await deployRdToPool(
+        //                 fuse,
+        //                 hre.ethers.provider.getSigner(),
+        //                 "0x6b175474e89094c44da98b954eedeac495271d0f",
+        //                 poolAddress,
+        //                 address,
+        //                 undefined
+        //         )
+        //         console.table(
+        //                 {contract: "Rewards distributor" , address: deployedDistributor}
+        //             )
+        // } catch (e) {
+        //         console.error(e)
+        // }
 
         try {
                 console.log(colors.yellow("\n(7/8) Deploying a TRIBE Flywheel to the pool"))

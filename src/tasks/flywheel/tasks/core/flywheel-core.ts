@@ -1,10 +1,7 @@
 import '@nomiclabs/hardhat-ethers';
-import {  Contract } from 'ethers';
-import FlywheelABI from '../../abis/FlywheelCore.json'
 import { task } from 'hardhat/config';
 import {  formatEther, getAddress } from 'ethers/lib/utils';
 import { createFlywheelCore } from '../../utils/contracts';
-
 
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
@@ -125,10 +122,11 @@ task('flywheel-strategy-state', "Will get the strategy's state on the given flyw
 task('flywheel-user-index')
     .addParam('strategy', 'Strategy to query.')
     .addParam('user', 'User to get index for.')
+    .addParam('flywheel', 'Flywheel contract address')
     .setAction(async (taskArgs, hre) => {
         const flywheelContract = createFlywheelCore(hre.ethers.provider, taskArgs.flywheel)
 
-        const userIndex = flywheelContract.userIndex(taskArgs.strategy, taskArgs.user)
+        const userIndex = await flywheelContract.userIndex(taskArgs.strategy, taskArgs.user)
         console.log({userIndex})
     })
 

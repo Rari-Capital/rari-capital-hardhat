@@ -319,3 +319,13 @@ task("stop-mining", async (taskArgs, hre) => {
   await hre.ethers.provider.send("evm_setIntervalMining", [0]);
   console.log("success");
 });
+
+task('total-supply')
+  .setAction(async (taskArgs,hre) => {
+    const contract = await createERC20(
+      hre,
+      '0xB7Eef08783c2feBFEe5bd181b9A1e360CbCF13ca'
+    )
+
+    console.log(await contract.callStatic.totalSupply())
+  })
