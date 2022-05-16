@@ -33,7 +33,7 @@ task('flywheel-rewards-deploy', "Will deploy a new rewards module contract.")
         taskArgs.authority
     )
 
-    console.log({receipt})
+    console.log({FlywheelRewardsModule: receipt.address})
 })
 
 /*///////////////////////////////////////////////////////////////
@@ -60,11 +60,35 @@ task('flywheel-rewards-token', "Will get rewarded token by the given flywheel re
     .setAction(async (taskArgs, hre) => {
     
     const flywheelContract = new Contract(
-        taskArgs.flywheel,
+        taskArgs.rewards,
         BaseFlywheelRewards.abi,
         hre.ethers.provider
     )
 
     const rewardToken = await flywheelContract.rewardToken()
+    console.log({rewardToken})
+})
+
+
+task('flywheel-rewards-get-accrued-rewards', "Will get rewarded token by the given flywheel rewards module.")
+    .addParam('rewards', 'Flywheel attached to the market/strategy')
+    .addParam('strategy', 'The strategy to query for')
+    .addParam('last', 'Timestamp of latest update')
+    .setAction(async (taskArgs, hre) => {
+    
+    await hre.ethers.provider.send("hardhat_impersonateAccount", [
+        "0xC66AB83418C20A65C3f8e83B3d11c8C3a6097b6F"
+    ]);
+    
+    const flywheelContract = new Contract(
+        taskArgs.rewards,
+        BaseFlywheelRewards.abi,
+        await hre.ethers.getSigner('0xC66AB83418C20A65C3f8e83B3d11c8C3a6097b6F')
+    )
+
+    const rewardToken = await flywheelContract.callStatic.getAccruedRewards(
+        taskArgs.strategy,
+        taskArgs.last
+    )
     console.log({rewardToken})
 })

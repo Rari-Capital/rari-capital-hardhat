@@ -2,7 +2,7 @@ import '@nomiclabs/hardhat-ethers';
 import {  Contract } from 'ethers';
 import FuseFlywheelStaticRewardsABI from '../../abis/FlywheelStaticRewards.json'
 import { task } from 'hardhat/config';
-import { getAddress } from 'ethers/lib/utils';
+import { getAddress, parseEther } from 'ethers/lib/utils';
 
 /*///////////////////////////////////////////////////////////////
                         METHOD CALLS
@@ -19,7 +19,7 @@ task('flywheel-rewards-set-strategy-info', "Get rewards infotmation (speed, end 
         hre.ethers.provider.getSigner()
     )
 
-    const receipt = await flywheelContract.setRewardsInfo(getAddress(taskArgs.strategy), [taskArgs.speed, taskArgs.end])
+    const receipt = await flywheelContract.setRewardsInfo(getAddress(taskArgs.strategy), [parseEther(taskArgs.speed), taskArgs.end])
 
     console.log({receipt})
 })
@@ -27,7 +27,7 @@ task('flywheel-rewards-set-strategy-info', "Get rewards infotmation (speed, end 
 /*///////////////////////////////////////////////////////////////
                         STATIC CALLS
 //////////////////////////////////////////////////////////////*/
-task('flywheel-rewards-strategy-info', "Get rewards infotmation (speed, end timestamp) for a given strategy.")
+task('flywheel-get-rewards-strategy-info', "Get rewards infotmation (speed, end timestamp) for a given strategy.")
     .addParam('strategy', 'Strategy to set rewards stream for')
     .addParam('rewards', 'Rewards module contract address, has to be static')
     .setAction(async (taskArgs, hre) => {
@@ -38,6 +38,8 @@ task('flywheel-rewards-strategy-info', "Get rewards infotmation (speed, end time
     )
 
     const receipt = await flywheelContract.rewardsInfo(getAddress(taskArgs.strategy))
+    const timestam = Date.now()
+    console.log({timestam})
 
     console.log({receipt})
 })

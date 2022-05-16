@@ -59,6 +59,20 @@ task('flywheel-is-rewards-distributor', "Will return true if it is")
         taskArgs.flywheel,
     )
 
-    const rewardToken = await flywheelContract.isRewardsDistributor()
+    const rewardsAccrued = await flywheelContract.isRewardsDistributor()
+    console.log({rewardsAccrued})
+})
+
+task('flywheel-rewards-accrued', "Will return accrued rewards for user")
+    .addParam('flywheel', 'Flywheel attached to the market/strategy')
+    .addParam('user', 'User address')
+    .setAction(async (taskArgs, hre) => {
+    
+    const flywheelContract = createFuseFlywheelCore(
+        hre.ethers.provider,
+        taskArgs.flywheel,
+    )
+
+    const rewardToken = await flywheelContract.rewardsAccrued(taskArgs.user)
     console.log({rewardToken})
 })
